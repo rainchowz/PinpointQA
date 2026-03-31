@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOAR-QA: A Benchmark for Small-Object-Aware Spatial Reasoning in Real-World Indoor Scenes</title>
+    <meta name="description"
+        content="SOAR-QA introduces a benchmark for target-driven small-object recovery in video, decomposing it into four progressively harder tasks to evaluate multimodal models' spatial reasoning capabilities.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Outfit:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container text-center">
+            <h1 class="paper-title">SOAR-QA: A Benchmark for Small-Object-Aware<br>Spatial Reasoning in Real-World
+                Indoor Scenes</h1>
+            <div class="authors">
+                <span class="author">Zhiyu Zhou<sup>1</sup></span>
+                <span class="author">Peilin Liu<sup>1</sup></span>
+                <span class="author">Ruoxuan Zhang<sup>1</sup></span>
+                <span class="author">Luyang Zhang<sup>1</sup></span>
+                <span class="author">Cheng Zhang<sup>1</sup></span>
+                <span class="author">Hongxia Xie<sup>1</sup></span>
+                <span class="author">Wen-Huang Cheng<sup>2</sup></span>
+            </div>
+            <div class="affiliations">
+                <span class="affiliation"><sup>1</sup> Jilin University</span>
+                <span class="author-sep">&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+                <span class="affiliation"><sup>2</sup> National Taiwan University</span>
+            </div>
+            <div class="action-buttons">
+                <a href="#" class="btn"><ion-icon name="document-text-outline"></ion-icon> Paper</a>
+                <a href="#" class="btn"><ion-icon name="logo-github"></ion-icon> Code</a>
+                <a href="#" class="btn"><ion-icon name="server-outline"></ion-icon> Dataset</a>
+                <a href="#" class="btn"><ion-icon name="library-outline"></ion-icon> arXiv</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- Overview Figure -->
+        <section class="section figure-section">
+            <img src="assets/Overview.png" alt="Benchmark Overview" class="main-figure drop-shadow">
+            <p class="caption"><strong>Figure 1.</strong> Benchmark overview. SOAR-QA decomposes the target-driven
+                small-object recovery problem into a progressive capability chain, moving from target perception to
+                reference grounding, natural-language localization, and structured spatial representation.</p>
+        </section>
+
+        <!-- Abstract -->
+        <section class="section">
+            <h2 class="section-title">Abstract</h2>
+            <div class="abstract-box">
+                <p>
+                    Small everyday objects such as keys, earbuds, chargers, and phones are frequently misplaced in
+                    realistic indoor environments. Recovering them from video is difficult because they are visually
+                    inconspicuous, weakly textured, easily occluded, and often surrounded by clutter. Existing
+                    benchmarks partially evaluate related capabilities such as video memory, object grounding, tracking,
+                    and spatial reasoning, but they do not directly assess whether a model can recover the last known
+                    location of a specified small object and describe it in an actionable way for real-world retrieval.
+                </p>
+                <p>
+                    In this work, we formalize this problem as <em>target-driven small-object recovery in video</em>. We
+                    decompose it into a progressive capability chain including target presence verification,
+                    reference-based localization, fine-grained recovery description, and structured actionable
+                    grounding. Based on this formulation, we introduce a new benchmark centered on small household
+                    objects in indoor videos and study whether current multimodal models can recover such targets under
+                    clutter, partial occlusion, weak saliency, and long temporal gaps. The benchmark is designed to
+                    distinguish between recognizing that an object appears, roughly locating it, describing it
+                    precisely, and producing an output that is directly usable for downstream search.
+                </p>
+            </div>
+        </section>
+
+        <!-- Motivation -->
+        <section class="section">
+            <h2 class="section-title">Motivation</h2>
+            <div class="text-content">
+                <p>
+                    In everyday environments, users often need more than generic video understanding. What matters is
+                    whether a system can reason about a known target object: whether it appeared, where it ended up,
+                    which nearby objects provide useful cues, and whether this information can be expressed clearly for
+                    downstream use.
+                </p>
+                <p>
+                    Compared with larger objects such as backpacks or televisions, small items like keys and earbuds are
+                    much more likely to "disappear" in indoor environments. They are physically small, visually less
+                    salient, easily occluded, and often surrounded by clutter. Even when they appeared only a short time
+                    earlier, people may still struggle to recall their exact final locations. This difficulty is
+                    consistent with the basic mechanisms of human visual cognition—the human brain does not process all
+                    visual information in a scene equally, but instead gives priority to the parts that are most
+                    relevant to the current goal.
+                </p>
+                <p>
+                    This problem is becoming increasingly relevant in practice. With the development of wearable
+                    assistants, egocentric devices, and multimodal agents, recovering target objects from video is
+                    gradually becoming a meaningful real-world task. Simply recognizing the object category or
+                    identifying a rough scene region is not sufficient. The system must also produce spatial outputs
+                    that can directly support real-world search. However, existing benchmarks—including Ego4D,
+                    VSI-Bench, EgoTracks, and ReferDINO—do not directly answer a practical question: <em>given a known
+                        small object, can a model recover its last known location from a long video and express it in a
+                        sufficiently precise and actionable manner?</em>
+                </p>
+            </div>
+        </section>
+
+        <!-- Task Formulation -->
+        <section class="section">
+            <h2 class="section-title">SOAR-QA Task Formulation</h2>
+            <p class="section-subtitle">To evaluate target-centered video spatial understanding for daily small objects,
+                we define four tasks that together form a progressive capability chain—moving from target perception to
+                reference grounding, natural-language localization, and structured spatial representation.</p>
+
+            <div class="tasks-grid">
+                <div class="task-card drop-shadow">
+                    <div class="task-icon"><ion-icon name="eye-outline"></ion-icon></div>
+                    <h3>Target Presence Verification (TPV)</h3>
+                    <p>Given a video and a target object, TPV asks the model to determine whether the target appears in
+                        the video. This task focuses on the most basic level of target perception, especially in indoor
+                        scenes where small objects may be hard to notice due to clutter, occlusion, or viewpoint
+                        changes. TPV serves as the starting point of the task chain, since all later stages rely on
+                        first detecting the target correctly.</p>
+                </div>
+                <div class="task-card drop-shadow">
+                    <div class="task-icon"><ion-icon name="pin-outline"></ion-icon></div>
+                    <h3>Nearest Reference Identification (NRI)</h3>
+                    <p>After confirming the presence of the target, NRI asks the model to identify the reference object
+                        that is closest to the target. The goal is not simple object recognition, but whether the model
+                        can correctly judge local spatial proximity between the target and surrounding objects. NRI
+                        connects target perception with later spatial expression, marking the key step from seeing the
+                        target to understanding its local spatial context.</p>
+                </div>
+                <div class="task-card drop-shadow">
+                    <div class="task-icon"><ion-icon name="chatbubble-ellipses-outline"></ion-icon></div>
+                    <h3>Fine-Grained Spatial Description (FSD)</h3>
+                    <p>FSD requires the model to describe the location of the target object in natural language based on
+                        the video. The description should be as precise as possible and should use spatial cues such as
+                        the supporting surface, nearby reference objects, relative directions, and distances. Unlike
+                        earlier tasks, FSD requires the model to combine multiple local cues and produce a clear and
+                        accurate localization statement for human users.</p>
+                </div>
+                <div class="task-card drop-shadow">
+                    <div class="task-icon"><ion-icon name="code-slash-outline"></ion-icon></div>
+                    <h3>Structured Spatial Prediction (SSP)</h3>
+                    <p>Building on FSD, SSP further requires the model to organize the target location into a structured
+                        output rather than free-form text. The model is expected to provide key spatial fields directly
+                        useful for localization, including the supporting object, nearby reference objects, and their
+                        corresponding distances. As the final stage, SSP places the strongest demand on the model's
+                        ability to organize spatial information.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Pipeline -->
+        <section class="section figure-section">
+            <h2 class="section-title">Data Construction Pipeline</h2>
+            <img src="assets/Datapineline.png" alt="Data Construction Pipeline" class="pipeline-figure drop-shadow">
+            <p class="caption"><strong>Figure 2.</strong> Benchmark construction pipeline. Starting from large-scale
+                indoor 3D scene datasets, we progressively build grounded QA pairs for our four-task formulation.</p>
+            <div class="text-content mt-4">
+                <p>
+                    <strong>Data Sources.</strong> Our scenes are drawn from ScanNet++ and ScanNet200, which satisfy two
+                    main requirements: they contain rich instance-level annotations for small objects, and they reflect
+                    an indoor roaming observation pattern that is close to everyday object search, where an observer
+                    moves through a room and gradually finds and localizes a target from different viewpoints.
+                </p>
+                <p>
+                    <strong>Scene Curation.</strong> We use a pre-selected small-object vocabulary to identify candidate
+                    target objects, then combine segmentation results with aligned 3D meshes to build object-level
+                    geometric representations. The pipeline filters nearby objects by centroid distance (keeping those
+                    within 1.0 m by default), then computes fine-grained 3D spatial relations between the target and its
+                    nearby candidates, including edge distance, center distance, horizontal distance, vertical offset,
+                    and relative above-below relations.
+                </p>
+                <p>
+                    <strong>Task-specific QA Generation.</strong> Based on the intermediate target-centered
+                    representation, we generate QA pairs for all four tasks. For TPV, we construct presence questions
+                    with both positive and negative samples. For NRI, we build multiple-choice questions from local
+                    reference objects. For FSD, we organize free-form answers guided by supporting objects, nearby
+                    references, and centimeter-level distances. For SSP, we further organize the same information into a
+                    directly parsable JSON schema.
+                </p>
+                <p>
+                    <strong>Quality Control.</strong> We adopt a quality control process that combines automatic
+                    filtering with manual review. This includes removing invalid labels, enforcing uniqueness
+                    constraints, applying task-specific validity constraints, and conducting multiple rounds of manual
+                    spot-checking to iteratively refine the QA generation logic.
+                </p>
+            </div>
+        </section>
+
+        <!-- Benchmark Statistics -->
+        <section class="section figure-section">
+            <h2 class="section-title">Benchmark Statistics</h2>
+            <img src="assets/data.png" alt="Data Statistics" class="stats-figure drop-shadow">
+            <p class="caption"><strong>Figure 3.</strong> Data statistics of the benchmark from four perspectives: (a)
+                task distribution, (b) data-source composition, (c) target object categories, and (d) video duration
+                distribution.</p>
+            <div class="text-content mt-4">
+                <p>
+                    The benchmark maintains a balanced task distribution: TPV, NRI, FSD, and SSP account for 26.47%,
+                    23.10%, 25.08%, and 25.34% respectively. In terms of data sources, 73.2% of the samples come from
+                    ScanNet++, while 26.8% come from ScanNet200. The benchmark covers a wide range of daily small
+                    objects, with high-frequency targets including mouse, book, bottle, cup, mug, headphones, power
+                    strip, charger, telephone, and notebook.
+                </p>
+                <p>
+                    Regarding video duration, the largest proportion falls in the 30–60s range (19.04%), followed by
+                    60–90s (15.82%), 120–150s (15.72%), and 90–120s (13.18%). Videos within 0–150s account for 67.67% of
+                    the benchmark, while longer videos are also retained including durations exceeding 270s (5.27%),
+                    ensuring the benchmark covers both short-to-medium indoor search scenarios and more challenging
+                    long-duration cases.
+                </p>
+            </div>
+        </section>
+
+        <!-- Experiments -->
+        <section class="section">
+            <h2 class="section-title">Experiments</h2>
+
+            <div class="text-content">
+                <h3 class="subsection-title">Experimental Setup</h3>
+                <p>
+                    We evaluate three groups of multimodal large language models (MLLMs). <strong>Proprietary
+                        models</strong> include GPT-5.4 and Kimi K2.5. <strong>Open-source models</strong> include
+                    LLaVA-OneVision-1.5-8B, Qwen3-VL-8B-Instruct, InternVL3.5-8B-Instruct,
+                    Spatial-MLLM-v1.1-Instruct-820K, SenseNova-SI-1.3-InternVL3-8B, and Cambrian-S-7B. We additionally
+                    conduct LoRA fine-tuning on two representative open-source backbones, yielding
+                    Qwen3-VL-8B-Instruct-SFT and InternVL3.5-8B-Instruct-SFT. The benchmark is partitioned at the scene
+                    level into training, validation, and evaluation splits (approximately 6:2:2), yielding 6,121, 1,954,
+                    and 2,019 samples respectively.
+                </p>
+            </div>
+
+            <!-- Results Table -->
+            <div class="table-wrapper">
+                <p class="table-caption"><strong>Table 1.</strong> Main results on the proposed benchmark across four
+                    tasks. Micro/Macro denotes the arithmetic mean over all samples using micro and macro averaging,
+                    respectively.</p>
+                <div class="table-scroll">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Model</th>
+                                <th colspan="2">TPV</th>
+                                <th colspan="2">NRI</th>
+                                <th colspan="2">FSD</th>
+                                <th colspan="2">SSP</th>
+                                <th colspan="2">Avg</th>
+                            </tr>
+                            <tr>
+                                <th>Micro</th>
+                                <th>Macro</th>
+                                <th>Micro</th>
+                                <th>Macro</th>
+                                <th>Micro</th>
+                                <th>Macro</th>
+                                <th>Micro</th>
+                                <th>Macro</th>
+                                <th>Micro</th>
+                                <th>Macro</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="group-header">
+                                <td colspan="11">Proprietary Models</td>
+                            </tr>
+                            <tr>
+                                <td>GPT-5.4</td>
+                                <td>0.65</td>
+                                <td>0.69</td>
+                                <td>0.39</td>
+                                <td>0.42</td>
+                                <td>0.31</td>
+                                <td>0.32</td>
+                                <td>0.15</td>
+                                <td>0.16</td>
+                                <td>0.38</td>
+                                <td>0.40</td>
+                            </tr>
+                            <tr>
+                                <td>Kimi K2.5</td>
+                                <td>0.80</td>
+                                <td>0.84</td>
+                                <td>0.42</td>
+                                <td>0.44</td>
+                                <td>0.32</td>
+                                <td>0.33</td>
+                                <td>0.15</td>
+                                <td>0.15</td>
+                                <td>0.42</td>
+                                <td>0.44</td>
+                            </tr>
+
+                            <tr class="group-header">
+                                <td colspan="11">Open-source Models</td>
+                            </tr>
+                            <tr>
+                                <td>LLaVA-OneVision-1.5-8B</td>
+                                <td>0.76</td>
+                                <td>0.79</td>
+                                <td>0.30</td>
+                                <td>0.30</td>
+                                <td>0.26</td>
+                                <td>0.27</td>
+                                <td>0.07</td>
+                                <td>0.06</td>
+                                <td>0.35</td>
+                                <td>0.36</td>
+                            </tr>
+                            <tr>
+                                <td>Qwen3-VL-8B-Instruct</td>
+                                <td>0.78</td>
+                                <td>0.80</td>
+                                <td>0.37</td>
+                                <td>0.37</td>
+                                <td>0.28</td>
+                                <td>0.29</td>
+                                <td>0.12</td>
+                                <td>0.12</td>
+                                <td>0.39</td>
+                                <td>0.40</td>
+                            </tr>
+                            <tr>
+                                <td>InternVL3.5-8B-Instruct</td>
+                                <td>0.65</td>
+                                <td>0.70</td>
+                                <td>0.36</td>
+                                <td>0.38</td>
+                                <td>0.25</td>
+                                <td>0.26</td>
+                                <td>0.09</td>
+                                <td>0.10</td>
+                                <td>0.34</td>
+                                <td>0.36</td>
+                            </tr>
+                            <tr>
+                                <td>Spatial-MLLM-v1.1</td>
+                                <td>0.52</td>
+                                <td>0.51</td>
+                                <td>0.30</td>
+                                <td>0.30</td>
+                                <td>0.21</td>
+                                <td>0.20</td>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                                <td>0.26</td>
+                                <td>0.25</td>
+                            </tr>
+                            <tr>
+                                <td>SenseNova-SI-1.3</td>
+                                <td>0.64</td>
+                                <td>0.66</td>
+                                <td>0.36</td>
+                                <td>0.40</td>
+                                <td>0.15</td>
+                                <td>0.16</td>
+                                <td>0.12</td>
+                                <td>0.13</td>
+                                <td>0.32</td>
+                                <td>0.34</td>
+                            </tr>
+                            <tr>
+                                <td>Cambrian-S-7B</td>
+                                <td>0.73</td>
+                                <td>0.78</td>
+                                <td>0.33</td>
+                                <td>0.35</td>
+                                <td>0.24</td>
+                                <td>0.25</td>
+                                <td>0.05</td>
+                                <td>0.06</td>
+                                <td>0.34</td>
+                                <td>0.36</td>
+                            </tr>
+
+                            <tr class="group-header">
+                                <td colspan="11">Fine-tuned Models</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td>Qwen3-VL-8B-SFT</td>
+                                <td><strong>0.83</strong></td>
+                                <td><strong>0.84</strong></td>
+                                <td><strong>0.44</strong></td>
+                                <td><strong>0.45</strong></td>
+                                <td><strong>0.36</strong></td>
+                                <td><strong>0.37</strong></td>
+                                <td><strong>0.29</strong></td>
+                                <td><strong>0.29</strong></td>
+                                <td><strong>0.48</strong></td>
+                                <td><strong>0.49</strong></td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td>InternVL3.5-8B-SFT</td>
+                                <td>0.82</td>
+                                <td>0.82</td>
+                                <td>0.41</td>
+                                <td>0.39</td>
+                                <td>0.34</td>
+                                <td>0.36</td>
+                                <td>0.23</td>
+                                <td>0.24</td>
+                                <td>0.45</td>
+                                <td>0.45</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Key Findings -->
+            <div class="text-content mt-4">
+                <h3 class="subsection-title">Key Findings</h3>
+                <p>
+                    <strong>Overall competitiveness.</strong> Qwen3-VL-8B-Instruct-SFT achieves the best overall
+                    performance (0.48/0.49 Avg Micro/Macro), followed by InternVL3.5-8B-Instruct-SFT (0.45/0.45). Among
+                    proprietary models, Kimi K2.5 outperforms GPT-5.4 (0.42/0.44 vs. 0.38/0.40). Notably, among
+                    non-fine-tuned open-source models, Qwen3-VL-8B-Instruct already exceeds GPT-5.4 in Avg-Micro and
+                    matches it in Avg-Macro.
+                </p>
+                <p>
+                    <strong>Progressive capability breakdown.</strong> A clear pattern is the monotonic decline from TPV
+                    to SSP, appearing across almost all models. For example, Qwen3-VL-8B-Instruct-SFT drops from
+                    0.83/0.84 on TPV to 0.29/0.29 on SSP, and Kimi K2.5 drops from 0.80/0.84 to 0.15/0.15. This confirms
+                    that current MLLMs do not fail at one isolated step. Instead, performance degrades steadily as the
+                    task moves from target perception to structured spatial output, directly supporting the meaning of
+                    the four-stage task design.
+                </p>
+                <p>
+                    <strong>Stage-specific failure profiles.</strong> Different models break down at different stages.
+                    LLaVA-OneVision-1.5-8B reaches 0.76/0.79 on TPV but only 0.07/0.06 on SSP. In contrast,
+                    SenseNova-SI-1.3 attains 0.36/0.40 on NRI yet only 0.15/0.16 on FSD, suggesting a different
+                    bottleneck between reference grounding and natural-language localization. These differences indicate
+                    that the benchmark can reveal <em>where</em> the failure first occurs.
+                </p>
+                <p>
+                    <strong>Training utility.</strong> Fine-tuning shows that the benchmark is effective as a training
+                    resource. Qwen3-VL-8B-Instruct improves from 0.39/0.40 to 0.48/0.49 in Avg, with the largest gains
+                    on SSP (0.12→0.29). Even so, SSP remains far below the other tasks, showing that executable spatial
+                    grounding is still the most difficult stage for current models.
+                </p>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="section">
+            <h2 class="section-title">Conclusion</h2>
+            <div class="text-content">
+                <p>
+                    We introduced a benchmark for target-driven small-object recovery in video, focusing on
+                    spatiotemporal localization and fine-grained spatial relation description in realistic indoor
+                    environments. By decomposing the problem into four progressively harder tasks, the benchmark
+                    distinguishes coarse target awareness from precise, reference-grounded, and actionable recovery.
+                    This design makes it possible to evaluate not only whether a model can detect a target, but whether
+                    it can support actual retrieval.
+                </p>
+                <p>
+                    More broadly, the benchmark shifts evaluation from generic scene understanding toward a more
+                    practical question: <em>can a multimodal system help a user recover a misplaced small object from
+                        video?</em> We hope this benchmark will support future work on egocentric memory, target-driven
+                    spatial grounding, and multimodal assistants that operate in realistic daily environments.
+                </p>
+            </div>
+        </section>
+
+        <!-- Citation -->
+        <section class="section">
+            <h2 class="section-title">Citation</h2>
+            <div class="bibtex-box">
+                <button class="copy-btn" id="copyBibBtn" title="Copy to clipboard"><ion-icon
+                        name="copy-outline"></ion-icon></button>
+                <pre><code id="bibtex-code">@article{zhou2024soarqa,
+  title={SOAR-QA: A Benchmark for Small-Object-Aware Spatial
+         Reasoning in Real-World Indoor Scenes},
+  author={Zhiyu Zhou and Peilin Liu and Ruoxuan Zhang and
+          Luyang Zhang and Cheng Zhang and Hongxia Xie
+          and Wen-Huang Cheng},
+  year={2024}
+}</code></pre>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p>&copy; 2024 Zhiyu Zhou et al. Project page for <strong>SOAR-QA</strong>.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
