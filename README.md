@@ -1,2 +1,2 @@
-# SOAR-QA
-this is a repository for SOAR-QA
+# PinpointQA
+this is a repository for PinpointQA
