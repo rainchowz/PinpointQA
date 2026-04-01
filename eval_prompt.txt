@@ -1,0 +1,155 @@
+You are judging a model's answer for the Open-ended Precise Localization task. Score how well the answer describes the final location of a target object using only the target, the Ground Truth, and the model output.
+
+This task measures spatial correctness. A good answer identifies the main location or support surface, mentions the right nearby reference objects, states their spatial relations correctly, and gives usable centimeter-level distances when possible. Clear wording matters, but factual localization matters more.
+
+Target object:
+{target}
+
+Ground Truth:
+{ground_truth}
+
+Model output:
+{model_output}
+
+This benchmark uses nine relation types: on, under, above, below, side_above, side_below, next_to, near, and attached_to. In natural language these may appear as “on,” “under,” “above,” “below,” “to the side of and above,” “to the side of and below,” “next to,” “near,” and “attached to.”
+
+Use them this way: “on” and “attached_to” usually describe the primary support surface or anchor rather than auxiliary references. Auxiliary references more often use under, above, below, side_above, side_below, next_to, or near. “Under” is stronger than generic “below,” because it usually implies lower position plus close proximity. “Above” and “below” describe vertical relations without major lateral shift; “side_above” and “side_below” add noticeable horizontal offset. “Near” is broader and weaker than directional relations. If the Ground Truth gives a stronger directional relation and the model only says “near,” award partial rather than full credit.
+
+Judge only what is verifiable from the Ground Truth. Do not reward unsupported new references just because they sound plausible. If the model replaces key Ground Truth references with unsupported ones, treat that as an error. Equivalent wording is allowed when the meaning is truly the same, such as “left side” vs. “to the left of,” or “table edge” vs. “edge of the table.” Do not reward verbosity.
+
+For this task, partial credit should be conservative: broad scene overlap, generic object mentions, or vague proximity alone are not strong evidence of precise localization.
+
+Score the answer on five dimensions, for a total of 10 points.
+
+A. Main location and support surface (0–3)
+Judge whether the answer identifies the correct main location, primary support surface, or anchor region.
+3: Main location and support surface are correct, and the overall placement matches the Ground Truth.
+2: The main support surface or anchor is correct, but the placement is still incomplete because one or more important localizing details are missing.
+1: The answer only identifies a broad related area or generic region, without a reliable support surface, anchor, or precise local placement.
+0: Main location or support surface is clearly wrong.
+If the object is placed on a clearly wrong support surface or in a clearly wrong scene region, this dimension must be 0 or 1. If the predicted main location is unrelated to or opposite from the Ground Truth, it should be 0.
+
+B. Key reference objects (0–2)
+Judge whether the answer mentions the correct nearby reference objects from the Ground Truth.
+2: At least two correct and clearly relevant key references are mentioned, and they play a role in localization.
+1: Exactly one correct and clearly localizing Ground-Truth-supported reference is mentioned and used meaningfully for localization.
+0: No clearly localizing Ground-Truth-supported reference is provided, or the references are vague, generic, mostly wrong, unsupported, or merely co-mentioned without helping localization.
+Only Ground-Truth-supported references receive credit.
+
+C. Spatial relations (0–2)
+Judge whether the answer correctly states the relation between the target and the key references.
+2: The important relations are basically correct.
+1: At least one important directional relation remains substantially correct, but another relation is incomplete, less precise than the Ground Truth, or mixed with some error.
+0: Important relations are wrong, missing for most key references, or replaced mainly by vague proximity.
+If the Ground Truth uses a strong directional relation and the model weakens it to vague proximity, reduce the score. If the Ground Truth uses a directional relation (e.g., left, right, behind, under, above, below) but the model replaces it with vague proximity terms such as “near” or “close to,” this should usually receive 0 and at most 1 only when another important directional relation is still substantially correct. If a key direction is reversed, penalize heavily.
+For this task, vague proximity is not a substitute for directional localization when the Ground Truth provides a directional relation.
+
+D. Centimeter-level distance (0–2)
+Judge whether the answer provides usable numeric distance information in centimeters and whether it is roughly consistent with the Ground Truth.
+2: The answer includes usable numeric distance information and it is roughly consistent with the Ground Truth.
+1: The answer includes at least one usable numeric distance in centimeters (or directly convertible metric form) tied to a correct Ground-Truth-supported reference, but the value is somewhat inaccurate or incomplete.
+0: There is no usable numeric distance, only vague wording, the number lacks a usable unit, the number is not tied to a correct reference, or the numeric information is unreliable.
+Treat “8 cm,” “8cm,” “about 8 cm,” and “8 centimeters” as the same type of usable distance. Vague phrases such as “very close” or “a few centimeters” do not count. A bare number without a unit does not count unless the context clearly implies centimeters. Metric expressions directly convertible to centimeters, such as 0.1 m, may be treated as usable. Answers that only provide approximate or generic distance descriptions without specific numeric grounding should receive 0. If the Ground Truth provides multiple key reference distances but the answer gives only one weakly grounded or mismatched number, this should usually receive 0 rather than 1. As rough tolerance, allow about ±5 cm for Ground-Truth distances in the 0–10 cm range, ±10 cm in the 10–30 cm range, and ±15 cm for distances above 30 cm.
+
+E. Clarity (0–1)
+Judge only whether the answer is understandable.
+1: The answer is clear and readable.
+0: The answer is severely confusing, malformed, or hard to understand.
+This dimension has very low weight and must not compensate for localization errors.
+
+Compute total_score = A + B + C + D + E. The total score must be an integer from 0 to 10. If A = 0 and B = 0, the total score should not exceed 2. If the answer contains almost no usable localization information, it should usually not exceed 2. If it hallucinates a wrong main scene or wrong key references, score strictly.
+
+Before returning the JSON, double-check that:
+1) total_score == main_location + reference_objects + spatial_relations + distance_cm + clarity
+2) total_score is an integer from 0 to 10
+If (1) is not satisfied, correct total_score to exactly match the sum of the five dimension scores.
+Return only JSON.
+
+Return only JSON in this format:
+{
+  "total_score": 0,
+  "dimension_scores": {
+    "main_location": 0,
+    "reference_objects": 0,
+    "spatial_relations": 0,
+    "distance_cm": 0,
+    "clarity": 0
+  },
+  "error_tags": [],
+  "explanation": "One concise sentence explaining the main reasons for the score."
+}
+
+Use error_tags only from:
+"wrong_main_location", "wrong_support_surface", "missing_key_reference", "wrong_spatial_relation", "missing_numeric_distance", "wrong_numeric_distance", "unclear_expression", "hallucinated_reference".
+
+Examples
+
+Example 1
+Ground Truth: The key is on the wooden desk, about 8 cm next to the cup and 12 cm above the laptop charger.
+Model Output: The key is on the wooden desk, about 8 cm next to the cup and roughly 12 cm above the laptop charger.
+Output:
+{
+  "total_score": 10,
+  "dimension_scores": {
+    "main_location": 3,
+    "reference_objects": 2,
+    "spatial_relations": 2,
+    "distance_cm": 2,
+    "clarity": 1
+  },
+  "error_tags": [],
+  "explanation": "The main location, key references, spatial relations, and numeric distances are all correct."
+}
+
+Example 2
+Ground Truth: The phone is on the sofa cushion, about 6 cm below the remote and 10 cm to the side of and above the notebook.
+Model Output: The phone is on the sofa cushion, next to the notebook and near the remote.
+Output:
+{
+  "total_score": 5,
+  "dimension_scores": {
+    "main_location": 3,
+    "reference_objects": 2,
+    "spatial_relations": 0,
+    "distance_cm": 0,
+    "clarity": 1
+  },
+  "error_tags": ["wrong_spatial_relation", "missing_numeric_distance"],
+  "explanation": "The support surface and key references are correct, but important directional relations are weakened to vague proximity and no usable numeric distance is given."
+}
+
+Example 3
+Ground Truth: The bottle is under the side table, about 14 cm above the storage box and 9 cm next to the shoe.
+Model Output: The bottle is under the table near the box.
+Output:
+{
+  "total_score": 3,
+  "dimension_scores": {
+    "main_location": 1,
+    "reference_objects": 1,
+    "spatial_relations": 0,
+    "distance_cm": 0,
+    "clarity": 1
+  },
+  "error_tags": ["missing_key_reference", "wrong_spatial_relation", "missing_numeric_distance"],
+  "explanation": "The answer only identifies a broad related area with one partial reference and lacks usable directional and distance information."
+}
+
+Example 4
+Ground Truth: The wallet is on the kitchen counter, about 7 cm next to the cutting board and 11 cm above the toaster.
+Model Output: The wallet is under the chair near the wall.
+Output:
+{
+  "total_score": 1,
+  "dimension_scores": {
+    "main_location": 0,
+    "reference_objects": 0,
+    "spatial_relations": 0,
+    "distance_cm": 0,
+    "clarity": 1
+  },
+  "error_tags": ["wrong_main_location", "wrong_support_surface", "hallucinated_reference"],
+  "explanation": "The main location is wrong and the references are unsupported by the Ground Truth."
+}
+
+Now score the given example.
