@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOAR-QA: A Benchmark for Small-Object-Aware Spatial Reasoning in Real-World Indoor Scenes</title>
+    <title>PinpointQA: A Dataset and Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos</title>
     <meta name="description"
-        content="SOAR-QA introduces a benchmark for target-driven small-object recovery in video, decomposing it into four progressively harder tasks to evaluate multimodal models' spatial reasoning capabilities.">
+        content="PinpointQA introduces a dataset and benchmark for small object-centric spatial understanding in indoor videos, decomposing it into four progressively harder tasks to evaluate multimodal models' spatial reasoning capabilities.">
     <link
         href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Outfit:wght@300;400;600;700;800&display=swap"
         rel="stylesheet">
@@ -20,8 +20,7 @@
     <!-- Header Section -->
     <header class="header">
         <div class="container text-center">
-            <h1 class="paper-title">SOAR-QA: A Benchmark for Small-Object-Aware<br>Spatial Reasoning in Real-World
-                Indoor Scenes</h1>
+            <h1 class="paper-title">PinpointQA: A Dataset and Benchmark for Small Object-Centric<br>Spatial Understanding in Indoor Videos</h1>
             <div class="authors">
                 <span class="author">Zhiyu Zhou<sup>1</sup></span>
                 <span class="author">Peilin Liu<sup>1</sup></span>
@@ -38,9 +37,10 @@
             </div>
             <div class="action-buttons">
                 <a href="#" class="btn"><ion-icon name="document-text-outline"></ion-icon> Paper</a>
-                <a href="#" class="btn"><ion-icon name="logo-github"></ion-icon> Code</a>
-                <a href="#" class="btn"><ion-icon name="server-outline"></ion-icon> Dataset</a>
+                <a href="https://github.com/rainchowz/PinpointQA" class="btn" target="_blank"><ion-icon name="logo-github"></ion-icon> Code</a>
+                <a href="https://huggingface.co/datasets/RainChow/PinpointQA" class="btn" target="_blank"><ion-icon name="server-outline"></ion-icon> Dataset</a>
                 <a href="#" class="btn"><ion-icon name="library-outline"></ion-icon> arXiv</a>
+                <a href="#" class="btn"><ion-icon name="book-outline"></ion-icon> Supplementary Materials</a>
             </div>
         </div>
     </header>
@@ -51,7 +51,7 @@
         <!-- Overview Figure -->
         <section class="section figure-section">
             <img src="assets/Overview.png" alt="Benchmark Overview" class="main-figure drop-shadow">
-            <p class="caption"><strong>Figure 1.</strong> Benchmark overview. SOAR-QA decomposes the target-driven
+            <p class="caption"><strong>Figure 1.</strong> Benchmark overview. PinpointQA decomposes the target-driven
                 small-object recovery problem into a progressive capability chain, moving from target perception to
                 reference grounding, natural-language localization, and structured spatial representation.</p>
         </section>
@@ -116,7 +116,7 @@
 
         <!-- Task Formulation -->
         <section class="section">
-            <h2 class="section-title">SOAR-QA Task Formulation</h2>
+            <h2 class="section-title">PinpointQA Task Formulation</h2>
             <p class="section-subtitle">To evaluate target-centered video spatial understanding for daily small objects,
                 we define four tasks that together form a progressive capability chain—moving from target perception to
                 reference grounding, natural-language localization, and structured spatial representation.</p>
@@ -479,9 +479,9 @@
             <div class="bibtex-box">
                 <button class="copy-btn" id="copyBibBtn" title="Copy to clipboard"><ion-icon
                         name="copy-outline"></ion-icon></button>
-                <pre><code id="bibtex-code">@article{zhou2024soarqa,
-  title={SOAR-QA: A Benchmark for Small-Object-Aware Spatial
-         Reasoning in Real-World Indoor Scenes},
+                <pre><code id="bibtex-code">@article{zhou2024pinpointqa,
+  title={PinpointQA: A Dataset and Benchmark for Small Object-Centric
+         Spatial Understanding in Indoor Videos},
   author={Zhiyu Zhou and Peilin Liu and Ruoxuan Zhang and
           Luyang Zhang and Cheng Zhang and Hongxia Xie
           and Wen-Huang Cheng},
@@ -494,7 +494,7 @@
 
     <footer class="footer">
         <div class="container text-center">
-            <p>&copy; 2024 Zhiyu Zhou et al. Project page for <strong>SOAR-QA</strong>.</p>
+            <p>&copy; 2024 Zhiyu Zhou et al. Project page for <strong>PinpointQA</strong>.</p>
         </div>
     </footer>
 
