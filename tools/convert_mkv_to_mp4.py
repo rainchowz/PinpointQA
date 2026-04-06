@@ -1,14 +1,5 @@
 #!/usr/bin/env python3
 """
-Batch remux MKV videos to MP4 with safe defaults.
-
-Features:
-- Recursively scans an input directory for MKV files.
-- Remuxes with ffmpeg using stream copy (`-c copy`) for lossless conversion.
-- Writes to a temporary file first, then atomically renames on success.
-- Skips valid existing MP4 outputs automatically.
-- Keeps source files by default; delete them only with `--delete-source`.
-- Uses ffprobe for validation when available.
 
 Typical usage:
     python convert_mkv_to_mp4.py /path/to/videos

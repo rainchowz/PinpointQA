@@ -2,16 +2,6 @@
 """
 Convert ScanNet/ScanNet200 .sens files to MP4 videos.
 
-This script is designed for open-source use with safe defaults:
-- No hard-coded paths
-- Minimal required input: only the input path
-- Supports either a single .sens file or a directory
-- Recursively scans directories for .sens files
-- Skips valid existing MP4 outputs by default
-- Uses a temporary .part.mp4 file before atomic rename
-- Streams JPEG color frames directly from .sens into ffmpeg
-- Reports clear errors when conversion fails
-
 Typical usage:
     python sens_to_video_open.py /path/to/sens_dir
 
