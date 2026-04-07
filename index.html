@@ -95,53 +95,67 @@
 
     <main class="container page-content">
         <section class="section" id="overview">
-            <div class="section-heading">
+            <div class="section-heading section-heading-center">
                 <h2>Overview</h2>
-                <p>
-                    PinpointQA focuses on small object-centric spatial understanding in indoor videos.
-                    It evaluates a progressive capability chain moving from target perception to reference grounding,
-                    natural-language localization, and structured spatial representation.
-                </p>
+                <span class="section-divider"></span>
             </div>
 
             <div class="figure-card">
                 <img src="assets/Overview.png" alt="PinpointQA overview" class="main-figure">
             </div>
 
-            <p class="caption">
-                <strong>Figure 1.</strong> PinpointQA decomposes the benchmark into four progressively harder tasks for
-                target-centered spatial understanding.
-            </p>
+            <div class="section-text">
+                <p>
+                    PinpointQA focuses on small object-centric spatial understanding in indoor videos. It evaluates a
+                    progressive capability chain moving from target perception to reference grounding,
+                    natural-language localization, and structured spatial representation.
+                </p>
+                <p class="caption">
+                    <strong>Figure 1.</strong> PinpointQA decomposes the benchmark into four progressively harder tasks
+                    for target-centered spatial understanding.
+                </p>
+            </div>
         </section>
 
         <section class="section section-tight" id="stats-strip">
-            <div class="stats-strip">
-                <div class="stat-card">
-                    <span class="stat-value">10,094</span>
-                    <span class="stat-label">QA Samples</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-value">4</span>
-                    <span class="stat-label">Tasks</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-value">2</span>
-                    <span class="stat-label">Data Sources</span>
-                </div>
-                <div class="stat-card stat-card-wide">
-                    <span class="stat-value stat-value-small">6,121 / 1,954 / 2,019</span>
-                    <span class="stat-label">Train / Val / Test</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-value">Indoor</span>
-                    <span class="stat-label">Scene Setting</span>
+            <div class="section-heading section-heading-center">
+                <h2>PinpointQA at a Glance</h2>
+                <span class="section-divider"></span>
+            </div>
+
+            <div class="stats-panel">
+                <div class="stats-strip">
+                    <div class="stat-card">
+                        <span class="stat-value">10,094</span>
+                        <span class="stat-label">QA Samples</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">4</span>
+                        <span class="stat-label">Tasks</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">2</span>
+                        <span class="stat-label">Data Sources</span>
+                    </div>
+                    <div class="stat-card stat-card-wide">
+                        <span class="stat-value stat-value-small">6,121 / 1,954 / 2,019</span>
+                        <span class="stat-label">Train / Val / Test</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">Indoor</span>
+                        <span class="stat-label">Scene Setting</span>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section class="section" id="task-formulation">
-            <div class="section-heading">
+            <div class="section-heading section-heading-center">
                 <h2>PinpointQA Task Formulation</h2>
+                <span class="section-divider"></span>
+            </div>
+
+            <div class="section-text">
                 <p>
                     We define four tasks that form a progressive chain from target perception to structured spatial
                     representation.
@@ -173,49 +187,57 @@
         </section>
 
         <section class="section" id="pipeline">
-            <div class="section-heading">
+            <div class="section-heading section-heading-center">
                 <h2>Data Construction Pipeline</h2>
-                <p>
-                    Starting from large-scale indoor 3D scene datasets, PinpointQA builds target-centered spatial
-                    annotations and then generates aligned QA pairs for the four-task formulation.
-                </p>
+                <span class="section-divider"></span>
             </div>
 
             <div class="figure-card">
                 <img src="assets/Datapineline.png" alt="Data construction pipeline" class="pipeline-figure">
             </div>
 
-            <p class="caption">
-                <strong>Figure 2.</strong> The pipeline connects scene curation, target-centered spatial relation
-                construction, and task-specific QA generation.
-            </p>
+            <div class="section-text">
+                <p>
+                    Starting from large-scale indoor 3D scene datasets, PinpointQA builds target-centered spatial
+                    annotations and then generates aligned QA pairs for the four-task formulation.
+                </p>
+                <p class="caption">
+                    <strong>Figure 2.</strong> The pipeline connects scene curation, target-centered spatial relation
+                    construction, and task-specific QA generation.
+                </p>
+            </div>
         </section>
 
         <section class="section" id="dataset-statistics">
-            <div class="section-heading">
+            <div class="section-heading section-heading-center">
                 <h2>Dataset Statistics</h2>
-                <p>
-                    The benchmark maintains a balanced task distribution while covering diverse target categories,
-                    source datasets, and a broad range of indoor video durations.
-                </p>
+                <span class="section-divider"></span>
             </div>
 
             <div class="figure-card">
                 <img src="assets/data.png" alt="Dataset statistics" class="stats-figure">
             </div>
 
-            <p class="caption">
-                <strong>Figure 3.</strong> Distribution overview of tasks, data-source composition, target categories,
-                and video duration.
-            </p>
+            <div class="section-text">
+                <p>
+                    The benchmark maintains a balanced task distribution while covering diverse target categories,
+                    data-source composition, and a broad range of indoor video durations.
+                </p>
+                <p class="caption">
+                    <strong>Figure 3.</strong> Distribution overview of tasks, data-source composition, target
+                    categories, and video duration.
+                </p>
+            </div>
         </section>
 
         <section class="section" id="benchmark">
-            <div class="section-heading">
+            <div class="section-heading section-heading-center">
                 <h2>Benchmark Performance</h2>
-                <p>
-                    Click any metric to sort the leaderboard.
-                </p>
+                <span class="section-divider"></span>
+            </div>
+
+            <div class="section-text section-text-center">
+                <p>Click any metric to sort the leaderboard.</p>
             </div>
 
             <div class="leaderboard-meta">
@@ -445,21 +467,22 @@
         </section>
 
         <section class="section section-small" id="citation">
-            <div class="section-heading">
+            <div class="section-heading section-heading-center">
                 <h2>Citation</h2>
+                <span class="section-divider"></span>
             </div>
 
             <div class="bibtex-box">
                 <button class="copy-btn" id="copyBibBtn" title="Copy to clipboard">
                     <ion-icon name="copy-outline"></ion-icon>
                 </button>
-                <pre><code id="bibtex-code">@article{zhou2024pinpointqa,
+                <pre><code id="bibtex-code">@article{zhou2026pinpointqa,
   title={PinpointQA: A Dataset and Benchmark for Small Object-Centric
          Spatial Understanding in Indoor Videos},
   author={Zhiyu Zhou and Peilin Liu and Ruoxuan Zhang and
           Luyang Zhang and Cheng Zhang and Hongxia Xie
           and Wen-Huang Cheng},
-  year={2024}
+  year={2026}
 }</code></pre>
             </div>
         </section>
