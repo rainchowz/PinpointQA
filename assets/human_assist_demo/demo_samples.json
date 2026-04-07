@@ -1,0 +1,60 @@
+[
+    {
+      "id": "sample1",
+      "title": "Example 1",
+      "target": "scissors",
+      "question": "Please click on the location of the scissors.",
+      "instruction": "Select a frame, click the target location, then save your answer.",
+      "frames": [
+        "assets/human_assist_demo/sample1/1.png",
+        "assets/human_assist_demo/sample1/2.png",
+        "assets/human_assist_demo/sample1/3.png",
+        "assets/human_assist_demo/sample1/4.png"
+      ],
+      "ground_truth_text": "The scissors is to the side of and above the dish drying rack, about 4 cm away. It is also to the side of and below the neon light, about 9 cm away. It is further to the side of and below the kitchen cabinet, about 12 cm away.",
+      "ground_truth": {
+        "frame_index": 2,
+        "x": 0.52728285077951,
+        "y": 0.4154231625835189
+      }
+    },
+    {
+      "id": "sample2",
+      "title": "Example 2",
+      "target": "pen holder",
+      "question": "Please click on the location of the pen holder.",
+      "instruction": "Select a frame, click the target location, then save your answer.",
+      "frames": [
+        "assets/human_assist_demo/sample2/1.png",
+        "assets/human_assist_demo/sample2/2.png",
+        "assets/human_assist_demo/sample2/3.png",
+        "assets/human_assist_demo/sample2/4.png"
+      ],
+      "ground_truth_text": "The pen holder is on the table. It is also under the monitor, about 3 cm away. It is further next to the nintendo switch, about 5 cm away.",
+      "ground_truth": {
+        "frame_index": 1,
+        "x": 0.6275055679287305,
+        "y": 0.3942238637529496
+      }
+    },
+    {
+      "id": "sample3",
+      "title": "Example 3",
+      "target": "mouse",
+      "question": "Please click on the location of the mouse.",
+      "instruction": "Select a frame, click the target location, then save your answer.",
+      "frames": [
+        "assets/human_assist_demo/sample3/1.png",
+        "assets/human_assist_demo/sample3/2.png",
+        "assets/human_assist_demo/sample3/3.png",
+        "assets/human_assist_demo/sample3/4.png"
+      ],
+      "ground_truth_text": "The mouse is on the table. It is also next to the keyboard, about 3 cm away. It is further next to the headphone, about 4 cm away.",
+      "ground_truth": {
+        "frame_index": 2,
+        "x": 0.6130289532293987,
+        "y": 0.5169821826280624
+      }
+    }
+  ]
+  

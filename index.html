@@ -53,6 +53,7 @@
     <nav class="section-nav">
         <div class="container nav-inner">
             <a href="#overview" class="nav-link">Overview</a>
+            <a href="#human-assistance-demo" class="nav-link">Human Assistance Demo</a>
             <a href="#task-formulation" class="nav-link">Task Formulation</a>
             <a href="#pipeline" class="nav-link">Data Construction Pipeline</a>
             <a href="#dataset-statistics" class="nav-link">Dataset Statistics</a>
@@ -116,6 +117,96 @@
                     its presence, ground it with nearby references, describe its location precisely, and finally express
                     that location in a structured form that is directly useful for downstream search.
                 </p>
+            </div>
+        </section>
+
+        <section class="section" id="human-assistance-demo">
+            <div class="section-heading section-heading-center">
+                <h2>Human Assistance Evaluation Demo</h2>
+                <span class="section-divider"></span>
+            </div>
+
+            <div class="section-text section-text-center">
+                <p>
+                    This lightweight demo mirrors the human assistance setting: users browse several frames, click the
+                    target location, and immediately see the elapsed time and response accuracy for each example.
+                </p>
+            </div>
+
+            <div class="human-demo-shell">
+                <div class="demo-question-card">
+                    <div class="demo-question-label">Question</div>
+                    <div class="demo-question-text" id="demoQuestionText">Please click Start to begin the demo.</div>
+                </div>
+
+                <div class="demo-stage-layout">
+                    <aside class="demo-side-card" id="demoPrevCard">
+                        <div class="demo-preview-chip">← Previous</div>
+                        <div class="demo-preview-wrap">
+                            <img id="demoPrevImage" alt="Previous preview">
+                        </div>
+                        <div class="demo-preview-name" id="demoPrevName">-</div>
+                    </aside>
+
+                    <div class="demo-main-card">
+                        <div class="demo-stage-header">
+                            <div class="demo-stage-counter" id="demoStageCounter">Image 1 / 4</div>
+                            <div class="demo-stage-hint" id="demoStageHint">Click Start to begin this example.</div>
+                        </div>
+
+                        <div class="demo-main-wrap" id="demoMainWrap">
+                            <div class="demo-main-lock" id="demoMainLock">
+                                <div class="demo-lock-title">Start the demo to enable interaction</div>
+                                <div class="demo-lock-subtitle">You can then switch frames, click the target location, and save your answer.</div>
+                            </div>
+                            <img id="demoMainImage" alt="Demo main image">
+                            <div class="demo-click-marker hidden" id="demoClickMarker"></div>
+                            <div class="demo-gt-marker hidden" id="demoGtMarker"></div>
+                        </div>
+
+                        <div class="demo-main-name" id="demoMainName">-</div>
+
+                        <div class="demo-controls">
+                            <button class="button ghost" id="demoStartBtn">Start</button>
+                            <button class="button success" id="demoSaveBtn" disabled>Save Answer</button>
+                            <button class="button secondary" id="demoShowGtBtn" disabled>Show GT</button>
+                            <button class="button primary" id="demoNextBtn">Next Example</button>
+                        </div>
+                    </div>
+
+                    <aside class="demo-side-card" id="demoNextCard">
+                        <div class="demo-preview-chip">Next →</div>
+                        <div class="demo-preview-wrap">
+                            <img id="demoNextImage" alt="Next preview">
+                        </div>
+                        <div class="demo-preview-name" id="demoNextName">-</div>
+                    </aside>
+                </div>
+
+                <div class="demo-results-panel">
+                    <div class="demo-result-item">
+                        <span class="demo-result-label">Current Example</span>
+                        <span class="demo-result-value" id="demoExampleLabel">Sample 1 / 3</span>
+                    </div>
+                    <div class="demo-result-item">
+                        <span class="demo-result-label">Elapsed Time</span>
+                        <span class="demo-result-value" id="demoElapsed">-</span>
+                    </div>
+                    <div class="demo-result-item">
+                        <span class="demo-result-label">Accuracy</span>
+                        <span class="demo-result-value" id="demoAccuracy">-</span>
+                    </div>
+                    <div class="demo-result-item demo-result-item-wide">
+                        <span class="demo-result-label">Session Summary</span>
+                        <span class="demo-result-value" id="demoSummary">Start the demo and complete an example to see the running summary.</span>
+                    </div>
+                </div>
+
+                <div class="section-text">
+                    <p id="demoGroundTruthText">
+                        Ground-truth description will appear here after you start the example.
+                    </p>
+                </div>
             </div>
         </section>
 
