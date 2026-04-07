@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 await navigator.clipboard.writeText(bibtexCode.innerText);
                 copyBtn.innerHTML = '<ion-icon name="checkmark-outline"></ion-icon>';
                 copyBtn.style.color = "#34d399";
+
                 setTimeout(() => {
                     copyBtn.innerHTML = '<ion-icon name="copy-outline"></ion-icon>';
                     copyBtn.style.color = "";
@@ -21,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const navLinks = Array.from(document.querySelectorAll(".nav-link"));
     const sections = Array.from(document.querySelectorAll("main .section[id]"));
 
-    const updateActiveNav = () => {
+    const setActiveNav = () => {
         let currentId = "";
 
         sections.forEach((section) => {
@@ -32,114 +33,114 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         navLinks.forEach((link) => {
-            const isActive = link.getAttribute("href") === `#${currentId}`;
-            link.classList.toggle("active", isActive);
+            link.classList.toggle("active", link.getAttribute("href") === `#${currentId}`);
         });
     };
 
-    updateActiveNav();
-    window.addEventListener("scroll", updateActiveNav, { passive: true });
+    setActiveNav();
+    window.addEventListener("scroll", setActiveNav, { passive: true });
 
-    const table = document.getElementById("leaderboardTable");
     const tbody = document.getElementById("leaderboardBody");
     const sortButtons = Array.from(document.querySelectorAll(".sort-btn"));
     const sortStatus = document.getElementById("sortStatus");
 
-    if (table && tbody) {
-        const rows = Array.from(tbody.querySelectorAll("tr"));
-        let currentSort = {
-            key: "avgMicro",
-            type: "number",
-            order: "desc"
-        };
+    if (!tbody || sortButtons.length === 0) {
+        return;
+    }
 
-        const keyToDatasetName = (key) =>
-            key.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
+    const baseRows = Array.from(tbody.querySelectorAll("tr"));
+    let currentSort = {
+        key: "avgMicro",
+        type: "number",
+        order: "desc"
+    };
 
-        const getCellValue = (row, key, type) => {
-            if (key === "model") {
-                return row.dataset.model || "";
-            }
+    const formatKeyLabel = (key) => {
+        return key.replace(/([A-Z])/g, " $1").replace(/^./, (char) => char.toUpperCase());
+    };
 
-            const datasetKey = keyToDatasetName(key);
-            const value = row.dataset[datasetKey.replace(/-([a-z])/g, (_, char) => char.toUpperCase())];
+    const getValue = (row, key, type) => {
+        if (key === "model") {
+            return row.dataset.model || "";
+        }
 
-            if (type === "number") {
-                return Number.parseFloat(value || "0");
-            }
+        const value = row.dataset[key];
+        return type === "number" ? Number.parseFloat(value || "0") : (value || "");
+    };
 
-            return value || "";
-        };
-
-        const updateButtonStates = (activeButton, order) => {
-            sortButtons.forEach((button) => {
-                button.classList.remove("active");
-
-                const icon = button.querySelector("ion-icon");
-                if (!icon) return;
-
-                if (button === activeButton) {
-                    button.classList.add("active");
-                    icon.setAttribute("name", order === "desc" ? "arrow-down-outline" : "arrow-up-outline");
-                } else {
-                    icon.setAttribute("name", "swap-vertical-outline");
-                }
-            });
-        };
-
-        const updateRankHighlight = () => {
-            const orderedRows = Array.from(tbody.querySelectorAll("tr"));
-            orderedRows.forEach((row, index) => {
-                row.classList.toggle("top-rank", index < 3);
-            });
-        };
-
-        const renderSortedRows = () => {
-            const sortedRows = [...rows].sort((a, b) => {
-                const aValue = getCellValue(a, currentSort.key, currentSort.type);
-                const bValue = getCellValue(b, currentSort.key, currentSort.type);
-
-                if (currentSort.type === "text") {
-                    return currentSort.order === "asc"
-                        ? String(aValue).localeCompare(String(bValue))
-                        : String(bValue).localeCompare(String(aValue));
-                }
-
-                return currentSort.order === "asc" ? aValue - bValue : bValue - aValue;
-            });
-
-            tbody.innerHTML = "";
-            sortedRows.forEach((row) => tbody.appendChild(row));
-            updateRankHighlight();
-
-            if (sortStatus) {
-                const label = currentSort.key.replace(/([A-Z])/g, " $1").replace(/^./, (char) => char.toUpperCase());
-                sortStatus.textContent = `Sorted by ${label} (${currentSort.order === "desc" ? "high to low" : "low to high"})`;
-            }
-        };
-
+    const updateButtons = (activeButton, order) => {
         sortButtons.forEach((button) => {
-            button.addEventListener("click", () => {
-                const key = button.dataset.sortKey;
-                const type = button.dataset.sortType || "text";
+            const icon = button.querySelector("ion-icon");
+            button.classList.remove("active");
 
-                if (currentSort.key === key) {
-                    currentSort.order = currentSort.order === "desc" ? "asc" : "desc";
-                } else {
-                    currentSort.key = key;
-                    currentSort.type = type;
-                    currentSort.order = button.dataset.defaultOrder || (type === "number" ? "desc" : "asc");
-                }
+            if (!icon) return;
 
-                updateButtonStates(button, currentSort.order);
-                renderSortedRows();
-            });
+            if (button === activeButton) {
+                button.classList.add("active");
+                icon.setAttribute("name", order === "desc" ? "arrow-down-outline" : "arrow-up-outline");
+            } else {
+                icon.setAttribute("name", "swap-vertical-outline");
+            }
+        });
+    };
+
+    const renderRanks = () => {
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+        rows.forEach((row, index) => {
+            const rankCell = row.querySelector(".rank-cell");
+            if (rankCell) {
+                rankCell.textContent = index + 1;
+            }
+            row.classList.toggle("top-rank", index < 3);
+        });
+    };
+
+    const renderRows = () => {
+        const sorted = [...baseRows].sort((a, b) => {
+            const aValue = getValue(a, currentSort.key, currentSort.type);
+            const bValue = getValue(b, currentSort.key, currentSort.type);
+
+            if (currentSort.type === "text") {
+                return currentSort.order === "asc"
+                    ? String(aValue).localeCompare(String(bValue))
+                    : String(bValue).localeCompare(String(aValue));
+            }
+
+            return currentSort.order === "asc" ? aValue - bValue : bValue - aValue;
         });
 
-        const defaultButton = document.querySelector('.sort-btn[data-sort-key="avgMicro"]');
-        if (defaultButton) {
-            updateButtonStates(defaultButton, "desc");
+        tbody.innerHTML = "";
+        sorted.forEach((row) => tbody.appendChild(row));
+        renderRanks();
+
+        if (sortStatus) {
+            sortStatus.textContent = `Sorted by ${formatKeyLabel(currentSort.key)} (${currentSort.order === "desc" ? "high to low" : "low to high"})`;
         }
-        renderSortedRows();
+    };
+
+    sortButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const key = button.dataset.sortKey;
+            const type = button.dataset.sortType || "text";
+
+            if (!key) return;
+
+            if (currentSort.key === key) {
+                currentSort.order = currentSort.order === "desc" ? "asc" : "desc";
+            } else {
+                currentSort.key = key;
+                currentSort.type = type;
+                currentSort.order = button.dataset.defaultOrder || (type === "number" ? "desc" : "asc");
+            }
+
+            updateButtons(button, currentSort.order);
+            renderRows();
+        });
+    });
+
+    const defaultButton = document.querySelector('.sort-btn[data-sort-key="avgMicro"]');
+    if (defaultButton) {
+        updateButtons(defaultButton, "desc");
     }
+    renderRows();
 });

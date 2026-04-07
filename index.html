@@ -8,9 +8,9 @@
 
     <title>PinpointQA: A Dataset and Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos</title>
     <meta name="description"
-        content="PinpointQA introduces a dataset and benchmark for small object-centric spatial understanding in indoor videos, decomposing it into four progressively harder tasks to evaluate multimodal models' spatial reasoning capabilities.">
+        content="PinpointQA is a dataset and benchmark for small object-centric spatial understanding in indoor videos. It evaluates target perception, reference grounding, natural-language localization, and structured spatial representation.">
     <meta name="keywords"
-        content="PinpointQA, spatial understanding, indoor videos, multimodal models, benchmark, dataset, small object detection">
+        content="PinpointQA, spatial understanding, indoor videos, multimodal models, benchmark, dataset, small object-centric spatial understanding">
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="PinpointQA: Small Object-Centric Spatial Understanding Benchmark">
@@ -26,7 +26,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap"
         rel="stylesheet">
 
     <link rel="stylesheet" href="styles.css">
@@ -54,197 +54,181 @@
         <div class="container nav-inner">
             <a href="#overview" class="nav-link">Overview</a>
             <a href="#task-formulation" class="nav-link">Task Formulation</a>
-            <a href="#pipeline" class="nav-link">Pipeline</a>
-            <a href="#dataset-stats" class="nav-link">Dataset Statistics</a>
+            <a href="#pipeline" class="nav-link">Data Construction Pipeline</a>
+            <a href="#dataset-statistics" class="nav-link">Dataset Statistics</a>
             <a href="#benchmark" class="nav-link">Benchmark Performance</a>
             <a href="#citation" class="nav-link">Citation</a>
         </div>
     </nav>
 
-    <header class="header">
-        <div class="container hero-shell">
-            <div class="hero-card">
-                <p class="hero-kicker">Dataset & Benchmark</p>
-                <h1 class="paper-title">PinpointQA: A Dataset and Benchmark for Small Object-Centric<br>Spatial Understanding in Indoor Videos</h1>
+    <header class="hero">
+        <div class="container hero-inner">
+            <h1 class="paper-title">
+                PinpointQA: A Dataset and Benchmark for Small Object-Centric
+                Spatial Understanding in Indoor Videos
+            </h1>
 
-                <div class="authors">
-                    <span class="author">Zhiyu Zhou<sup>1</sup></span>
-                    <span class="author">Peilin Liu<sup>1</sup></span>
-                    <span class="author">Ruoxuan Zhang<sup>1</sup></span>
-                    <span class="author">Luyang Zhang<sup>1</sup></span>
-                    <span class="author">Cheng Zhang<sup>1</sup></span>
-                    <span class="author">Hongxia Xie<sup>1</sup></span>
-                    <span class="author">Wen-Huang Cheng<sup>2</sup></span>
-                </div>
+            <div class="authors">
+                <span class="author">Zhiyu Zhou<sup>1</sup></span>
+                <span class="author">Peilin Liu<sup>1</sup></span>
+                <span class="author">Ruoxuan Zhang<sup>1</sup></span>
+                <span class="author">Luyang Zhang<sup>1</sup></span>
+                <span class="author">Cheng Zhang<sup>1</sup></span>
+                <span class="author">Hongxia Xie<sup>1</sup></span>
+                <span class="author">Wen-Huang Cheng<sup>2</sup></span>
+            </div>
 
-                <div class="affiliations">
-                    <span class="affiliation"><sup>1</sup> Jilin University</span>
-                    <span class="author-sep">|</span>
-                    <span class="affiliation"><sup>2</sup> National Taiwan University</span>
-                </div>
+            <div class="affiliations">
+                <span class="affiliation"><sup>1</sup> Jilin University</span>
+                <span class="author-sep">|</span>
+                <span class="affiliation"><sup>2</sup> National Taiwan University</span>
+            </div>
 
-                <div class="action-buttons">
-                    <a href="#" class="btn"><ion-icon name="document-text-outline"></ion-icon> Paper</a>
-                    <a href="https://github.com/rainchowz/PinpointQA" class="btn" target="_blank"><ion-icon name="logo-github"></ion-icon> Code</a>
-                    <a href="https://huggingface.co/datasets/RainChow/PinpointQA" class="btn" target="_blank"><ion-icon name="server-outline"></ion-icon> Dataset</a>
-                    <a href="#" class="btn"><ion-icon name="book-outline"></ion-icon> Supplementary Materials</a>
-                </div>
+            <div class="action-buttons">
+                <a href="#" class="btn"><ion-icon name="document-text-outline"></ion-icon> Paper</a>
+                <a href="https://github.com/rainchowz/PinpointQA" class="btn" target="_blank"><ion-icon name="logo-github"></ion-icon> Code</a>
+                <a href="https://huggingface.co/datasets/RainChow/PinpointQA" class="btn" target="_blank"><ion-icon name="server-outline"></ion-icon> Dataset</a>
+                <a href="#" class="btn"><ion-icon name="book-outline"></ion-icon> Supplementary Materials</a>
             </div>
         </div>
     </header>
 
     <main class="container page-content">
         <section class="section" id="overview">
-            <div class="section-header">
-                <p class="section-eyebrow">Overview</p>
-                <h2 class="section-title">A benchmark for recovering small everyday objects from indoor videos.</h2>
-                <p class="section-subtitle">
-                    PinpointQA evaluates whether models can detect a target, ground it against nearby references,
-                    describe its location, and organize the result into a usable spatial output.
+            <div class="section-heading">
+                <h2>Overview</h2>
+                <p>
+                    PinpointQA focuses on small object-centric spatial understanding in indoor videos.
+                    It evaluates a progressive capability chain moving from target perception to reference grounding,
+                    natural-language localization, and structured spatial representation.
                 </p>
             </div>
 
-            <div class="feature-grid">
-                <article class="feature-card">
-                    <span class="feature-label">Focus</span>
-                    <h3>Target-driven recovery</h3>
-                    <p>Designed around practical object retrieval rather than generic scene understanding.</p>
-                </article>
-                <article class="feature-card">
-                    <span class="feature-label">Input</span>
-                    <h3>Indoor videos</h3>
-                    <p>Captures clutter, occlusion, long temporal gaps, and weak visual saliency.</p>
-                </article>
-                <article class="feature-card">
-                    <span class="feature-label">Output</span>
-                    <h3>Actionable spatial cues</h3>
-                    <p>Measures whether model outputs can directly support downstream search.</p>
-                </article>
-                <article class="feature-card">
-                    <span class="feature-label">Tasks</span>
-                    <h3>4-stage capability chain</h3>
-                    <p>From appearance verification to structured spatial prediction.</p>
-                </article>
+            <div class="figure-card">
+                <img src="assets/Overview.png" alt="PinpointQA overview" class="main-figure">
             </div>
 
-            <div class="media-card">
-                <img src="assets/Overview.png" alt="Benchmark Overview" class="main-figure">
-                <p class="caption">
-                    <strong>Figure 1.</strong> PinpointQA decomposes target-driven small-object recovery into a progressive spatial understanding pipeline.
-                </p>
-            </div>
+            <p class="caption">
+                <strong>Figure 1.</strong> PinpointQA decomposes the benchmark into four progressively harder tasks for
+                target-centered spatial understanding.
+            </p>
         </section>
 
-        <section class="section section-compact" id="stats-bar">
+        <section class="section section-tight" id="stats-strip">
             <div class="stats-strip">
-                <article class="stat-card">
+                <div class="stat-card">
                     <span class="stat-value">10,094</span>
                     <span class="stat-label">QA Samples</span>
-                </article>
-                <article class="stat-card">
+                </div>
+                <div class="stat-card">
                     <span class="stat-value">4</span>
-                    <span class="stat-label">Task Types</span>
-                </article>
-                <article class="stat-card">
+                    <span class="stat-label">Tasks</span>
+                </div>
+                <div class="stat-card">
                     <span class="stat-value">2</span>
-                    <span class="stat-label">Source Datasets</span>
-                </article>
-                <article class="stat-card">
-                    <span class="stat-value">6,121 / 1,954 / 2,019</span>
+                    <span class="stat-label">Data Sources</span>
+                </div>
+                <div class="stat-card stat-card-wide">
+                    <span class="stat-value stat-value-small">6,121 / 1,954 / 2,019</span>
                     <span class="stat-label">Train / Val / Test</span>
-                </article>
-                <article class="stat-card">
+                </div>
+                <div class="stat-card">
                     <span class="stat-value">Indoor</span>
-                    <span class="stat-label">Realistic Search Scenes</span>
-                </article>
+                    <span class="stat-label">Scene Setting</span>
+                </div>
             </div>
         </section>
 
         <section class="section" id="task-formulation">
-            <div class="section-header">
-                <p class="section-eyebrow">PinpointQA Task Formulation</p>
-                <h2 class="section-title">Four compact tasks define the full recovery pipeline.</h2>
+            <div class="section-heading">
+                <h2>PinpointQA Task Formulation</h2>
+                <p>
+                    We define four tasks that form a progressive chain from target perception to structured spatial
+                    representation.
+                </p>
             </div>
 
             <div class="tasks-grid">
                 <div class="task-card">
                     <div class="task-icon"><ion-icon name="eye-outline"></ion-icon></div>
-                    <h3>TPV</h3>
-                    <p>Check whether the target object appears in the video.</p>
+                    <h3>Target Presence Verification</h3>
+                    <p>Determine whether the target object appears in the video.</p>
                 </div>
                 <div class="task-card">
                     <div class="task-icon"><ion-icon name="pin-outline"></ion-icon></div>
-                    <h3>NRI</h3>
-                    <p>Identify the nearest reference object around the target.</p>
+                    <h3>Nearest Reference Identification</h3>
+                    <p>Identify the reference object closest to the target.</p>
                 </div>
                 <div class="task-card">
                     <div class="task-icon"><ion-icon name="chatbubble-ellipses-outline"></ion-icon></div>
-                    <h3>FSD</h3>
-                    <p>Describe the target location with concise spatial language.</p>
+                    <h3>Fine-Grained Spatial Description</h3>
+                    <p>Describe the target location with clear spatial language.</p>
                 </div>
                 <div class="task-card">
                     <div class="task-icon"><ion-icon name="code-slash-outline"></ion-icon></div>
-                    <h3>SSP</h3>
-                    <p>Return the location as structured, directly usable spatial fields.</p>
+                    <h3>Structured Spatial Prediction</h3>
+                    <p>Organize the target location into directly usable structured fields.</p>
                 </div>
             </div>
         </section>
 
         <section class="section" id="pipeline">
-            <div class="section-header">
-                <p class="section-eyebrow">Data Construction Pipeline</p>
-                <h2 class="section-title">From indoor scenes to grounded, target-centric QA pairs.</h2>
-                <p class="section-subtitle">
-                    PinpointQA starts from richly annotated indoor datasets, constructs target-centered spatial
-                    relations, and turns them into aligned question-answer samples across the four tasks.
+            <div class="section-heading">
+                <h2>Data Construction Pipeline</h2>
+                <p>
+                    Starting from large-scale indoor 3D scene datasets, PinpointQA builds target-centered spatial
+                    annotations and then generates aligned QA pairs for the four-task formulation.
                 </p>
             </div>
 
-            <div class="media-card">
-                <img src="assets/Datapineline.png" alt="Data Construction Pipeline" class="pipeline-figure">
-                <p class="caption">
-                    <strong>Figure 2.</strong> The pipeline filters candidate targets, computes local spatial relations, and generates task-aligned QA annotations.
-                </p>
+            <div class="figure-card">
+                <img src="assets/Datapineline.png" alt="Data construction pipeline" class="pipeline-figure">
             </div>
+
+            <p class="caption">
+                <strong>Figure 2.</strong> The pipeline connects scene curation, target-centered spatial relation
+                construction, and task-specific QA generation.
+            </p>
         </section>
 
-        <section class="section" id="dataset-stats">
-            <div class="section-header">
-                <p class="section-eyebrow">Dataset Statistics</p>
-                <h2 class="section-title">A balanced benchmark covering task mix, source composition, target types, and video duration.</h2>
-                <p class="section-subtitle">
-                    The benchmark keeps the four tasks relatively balanced while spanning diverse small-object categories
-                    and both short and long indoor search videos.
+        <section class="section" id="dataset-statistics">
+            <div class="section-heading">
+                <h2>Dataset Statistics</h2>
+                <p>
+                    The benchmark maintains a balanced task distribution while covering diverse target categories,
+                    source datasets, and a broad range of indoor video durations.
                 </p>
             </div>
 
-            <div class="media-card">
-                <img src="assets/data.png" alt="Data Statistics" class="stats-figure">
-                <p class="caption">
-                    <strong>Figure 3.</strong> Distribution overview of tasks, data sources, target categories, and video durations.
-                </p>
+            <div class="figure-card">
+                <img src="assets/data.png" alt="Dataset statistics" class="stats-figure">
             </div>
+
+            <p class="caption">
+                <strong>Figure 3.</strong> Distribution overview of tasks, data-source composition, target categories,
+                and video duration.
+            </p>
         </section>
 
         <section class="section" id="benchmark">
-            <div class="section-header">
-                <p class="section-eyebrow">Benchmark Performance</p>
-                <h2 class="section-title">Sortable leaderboard across all four tasks.</h2>
-                <p class="section-subtitle">
-                    Click any metric to sort the table and compare models by task or overall average.
+            <div class="section-heading">
+                <h2>Benchmark Performance</h2>
+                <p>
+                    Click any metric to sort the leaderboard.
                 </p>
             </div>
 
-            <div class="leaderboard-card">
-                <div class="leaderboard-note">
-                    <span class="leaderboard-badge">Default Ranking</span>
-                    <span id="sortStatus">Sorted by Avg Micro (high to low)</span>
-                </div>
+            <div class="leaderboard-meta">
+                <span class="leaderboard-badge">Leaderboard</span>
+                <span id="sortStatus">Sorted by Avg Micro (high to low)</span>
+            </div>
 
+            <div class="table-card">
                 <div class="table-scroll">
                     <table class="results-table" id="leaderboardTable">
                         <thead>
                             <tr>
+                                <th class="rank-col">Rank</th>
                                 <th>
                                     <button type="button" class="sort-btn" data-sort-key="model" data-sort-type="text">
                                         Model
@@ -313,10 +297,10 @@
                                 </th>
                             </tr>
                         </thead>
-
                         <tbody id="leaderboardBody">
                             <tr data-model="Qwen3-VL-8B-SFT" data-tpv-micro="0.83" data-tpv-macro="0.84" data-nri-micro="0.44" data-nri-macro="0.45" data-fsd-micro="0.36" data-fsd-macro="0.37" data-ssp-micro="0.29" data-ssp-macro="0.29" data-avg-micro="0.48" data-avg-macro="0.49">
-                                <td>Qwen3-VL-8B-SFT <span class="model-group-badge">Fine-tuned</span></td>
+                                <td class="rank-cell"></td>
+                                <td>Qwen3-VL-8B-SFT <span class="model-tag">Fine-tuned</span></td>
                                 <td>0.83</td>
                                 <td>0.84</td>
                                 <td>0.44</td>
@@ -329,7 +313,8 @@
                                 <td>0.49</td>
                             </tr>
                             <tr data-model="InternVL3.5-8B-SFT" data-tpv-micro="0.82" data-tpv-macro="0.82" data-nri-micro="0.41" data-nri-macro="0.39" data-fsd-micro="0.34" data-fsd-macro="0.36" data-ssp-micro="0.23" data-ssp-macro="0.24" data-avg-micro="0.45" data-avg-macro="0.45">
-                                <td>InternVL3.5-8B-SFT <span class="model-group-badge">Fine-tuned</span></td>
+                                <td class="rank-cell"></td>
+                                <td>InternVL3.5-8B-SFT <span class="model-tag">Fine-tuned</span></td>
                                 <td>0.82</td>
                                 <td>0.82</td>
                                 <td>0.41</td>
@@ -342,7 +327,8 @@
                                 <td>0.45</td>
                             </tr>
                             <tr data-model="Kimi K2.5" data-tpv-micro="0.80" data-tpv-macro="0.84" data-nri-micro="0.42" data-nri-macro="0.44" data-fsd-micro="0.32" data-fsd-macro="0.33" data-ssp-micro="0.15" data-ssp-macro="0.15" data-avg-micro="0.42" data-avg-macro="0.44">
-                                <td>Kimi K2.5 <span class="model-group-badge">Proprietary</span></td>
+                                <td class="rank-cell"></td>
+                                <td>Kimi K2.5 <span class="model-tag">Proprietary</span></td>
                                 <td>0.80</td>
                                 <td>0.84</td>
                                 <td>0.42</td>
@@ -355,7 +341,8 @@
                                 <td>0.44</td>
                             </tr>
                             <tr data-model="Qwen3-VL-8B-Instruct" data-tpv-micro="0.78" data-tpv-macro="0.80" data-nri-micro="0.37" data-nri-macro="0.37" data-fsd-micro="0.28" data-fsd-macro="0.29" data-ssp-micro="0.12" data-ssp-macro="0.12" data-avg-micro="0.39" data-avg-macro="0.40">
-                                <td>Qwen3-VL-8B-Instruct <span class="model-group-badge">Open-source</span></td>
+                                <td class="rank-cell"></td>
+                                <td>Qwen3-VL-8B-Instruct <span class="model-tag">Open-source</span></td>
                                 <td>0.78</td>
                                 <td>0.80</td>
                                 <td>0.37</td>
@@ -368,7 +355,8 @@
                                 <td>0.40</td>
                             </tr>
                             <tr data-model="GPT-5.4" data-tpv-micro="0.65" data-tpv-macro="0.69" data-nri-micro="0.39" data-nri-macro="0.42" data-fsd-micro="0.31" data-fsd-macro="0.32" data-ssp-micro="0.15" data-ssp-macro="0.16" data-avg-micro="0.38" data-avg-macro="0.40">
-                                <td>GPT-5.4 <span class="model-group-badge">Proprietary</span></td>
+                                <td class="rank-cell"></td>
+                                <td>GPT-5.4 <span class="model-tag">Proprietary</span></td>
                                 <td>0.65</td>
                                 <td>0.69</td>
                                 <td>0.39</td>
@@ -381,7 +369,8 @@
                                 <td>0.40</td>
                             </tr>
                             <tr data-model="LLaVA-OneVision-1.5-8B" data-tpv-micro="0.76" data-tpv-macro="0.79" data-nri-micro="0.30" data-nri-macro="0.30" data-fsd-micro="0.26" data-fsd-macro="0.27" data-ssp-micro="0.07" data-ssp-macro="0.06" data-avg-micro="0.35" data-avg-macro="0.36">
-                                <td>LLaVA-OneVision-1.5-8B <span class="model-group-badge">Open-source</span></td>
+                                <td class="rank-cell"></td>
+                                <td>LLaVA-OneVision-1.5-8B <span class="model-tag">Open-source</span></td>
                                 <td>0.76</td>
                                 <td>0.79</td>
                                 <td>0.30</td>
@@ -394,7 +383,8 @@
                                 <td>0.36</td>
                             </tr>
                             <tr data-model="Cambrian-S-7B" data-tpv-micro="0.73" data-tpv-macro="0.78" data-nri-micro="0.33" data-nri-macro="0.35" data-fsd-micro="0.24" data-fsd-macro="0.25" data-ssp-micro="0.05" data-ssp-macro="0.06" data-avg-micro="0.34" data-avg-macro="0.36">
-                                <td>Cambrian-S-7B <span class="model-group-badge">Open-source</span></td>
+                                <td class="rank-cell"></td>
+                                <td>Cambrian-S-7B <span class="model-tag">Open-source</span></td>
                                 <td>0.73</td>
                                 <td>0.78</td>
                                 <td>0.33</td>
@@ -407,7 +397,8 @@
                                 <td>0.36</td>
                             </tr>
                             <tr data-model="InternVL3.5-8B-Instruct" data-tpv-micro="0.65" data-tpv-macro="0.70" data-nri-micro="0.36" data-nri-macro="0.38" data-fsd-micro="0.25" data-fsd-macro="0.26" data-ssp-micro="0.09" data-ssp-macro="0.10" data-avg-micro="0.34" data-avg-macro="0.36">
-                                <td>InternVL3.5-8B-Instruct <span class="model-group-badge">Open-source</span></td>
+                                <td class="rank-cell"></td>
+                                <td>InternVL3.5-8B-Instruct <span class="model-tag">Open-source</span></td>
                                 <td>0.65</td>
                                 <td>0.70</td>
                                 <td>0.36</td>
@@ -420,7 +411,8 @@
                                 <td>0.36</td>
                             </tr>
                             <tr data-model="SenseNova-SI-1.3" data-tpv-micro="0.64" data-tpv-macro="0.66" data-nri-micro="0.36" data-nri-macro="0.40" data-fsd-micro="0.15" data-fsd-macro="0.16" data-ssp-micro="0.12" data-ssp-macro="0.13" data-avg-micro="0.32" data-avg-macro="0.34">
-                                <td>SenseNova-SI-1.3 <span class="model-group-badge">Open-source</span></td>
+                                <td class="rank-cell"></td>
+                                <td>SenseNova-SI-1.3 <span class="model-tag">Open-source</span></td>
                                 <td>0.64</td>
                                 <td>0.66</td>
                                 <td>0.36</td>
@@ -433,7 +425,8 @@
                                 <td>0.34</td>
                             </tr>
                             <tr data-model="Spatial-MLLM-v1.1" data-tpv-micro="0.52" data-tpv-macro="0.51" data-nri-micro="0.30" data-nri-macro="0.30" data-fsd-micro="0.21" data-fsd-macro="0.20" data-ssp-micro="0.00" data-ssp-macro="0.00" data-avg-micro="0.26" data-avg-macro="0.25">
-                                <td>Spatial-MLLM-v1.1 <span class="model-group-badge">Open-source</span></td>
+                                <td class="rank-cell"></td>
+                                <td>Spatial-MLLM-v1.1 <span class="model-tag">Open-source</span></td>
                                 <td>0.52</td>
                                 <td>0.51</td>
                                 <td>0.30</td>
@@ -451,10 +444,9 @@
             </div>
         </section>
 
-        <section class="section section-compact" id="citation">
-            <div class="section-header">
-                <p class="section-eyebrow">Citation</p>
-                <h2 class="section-title">BibTeX</h2>
+        <section class="section section-small" id="citation">
+            <div class="section-heading">
+                <h2>Citation</h2>
             </div>
 
             <div class="bibtex-box">
