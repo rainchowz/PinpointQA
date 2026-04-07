@@ -94,7 +94,7 @@ button {
 }
 
 .hero {
-    padding: 42px 0 14px;
+    padding: 42px 0 20px;
 }
 
 .hero-inner {
@@ -173,23 +173,23 @@ button {
 }
 
 .page-content {
-    padding: 22px 0 64px;
+    padding: 30px 0 72px;
 }
 
 .section {
-    margin-top: 34px;
+    margin-top: 52px;
 }
 
 .section-tight {
-    margin-top: 20px;
+    margin-top: 34px;
 }
 
 .section-small {
-    margin-top: 36px;
+    margin-top: 52px;
 }
 
 .section-heading {
-    margin-bottom: 18px;
+    margin-bottom: 22px;
 }
 
 .section-heading-center {
@@ -199,7 +199,7 @@ button {
 .section-heading h2 {
     margin: 0;
     font-family: var(--font-heading);
-    font-size: 1.65rem;
+    font-size: 1.9rem;
     line-height: 1.2;
     letter-spacing: -0.02em;
 }
@@ -215,9 +215,10 @@ button {
 
 .section-text {
     max-width: 860px;
-    margin: 14px auto 0;
+    margin: 18px auto 0;
     color: var(--text-secondary);
-    font-size: 0.98rem;
+    font-size: 1rem;
+    line-height: 1.8;
 }
 
 .section-text-center {
@@ -225,7 +226,7 @@ button {
 }
 
 .section-text p {
-    margin: 0 0 10px;
+    margin: 0;
 }
 
 .figure-card,
@@ -247,9 +248,11 @@ button {
 }
 
 .caption {
-    margin-top: 10px;
+    max-width: 860px;
+    margin: 12px auto 0;
     color: var(--text-muted);
-    font-size: 0.9rem;
+    font-size: 0.86rem;
+    line-height: 1.6;
 }
 
 .caption strong {
@@ -310,7 +313,7 @@ button {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 14px;
-    margin-top: 16px;
+    margin-top: 20px;
 }
 
 .task-card {
@@ -354,7 +357,7 @@ button {
     justify-content: space-between;
     gap: 12px;
     flex-wrap: wrap;
-    margin: 0 0 12px;
+    margin: 20px 0 12px;
 }
 
 .leaderboard-badge {
@@ -526,7 +529,7 @@ button {
     }
 
     .section-heading h2 {
-        font-size: 1.38rem;
+        font-size: 1.55rem;
     }
 
     .stats-strip,
@@ -555,5 +558,9 @@ button {
 
     .stats-panel {
         padding: 18px;
+    }
+
+    .section {
+        margin-top: 42px;
     }
 }

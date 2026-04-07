@@ -104,15 +104,17 @@
                 <img src="assets/Overview.png" alt="PinpointQA overview" class="main-figure">
             </div>
 
+            <p class="caption">
+                <strong>Figure 1.</strong> PinpointQA decomposes the benchmark into four progressively harder tasks for
+                target-centered spatial understanding.
+            </p>
+
             <div class="section-text">
                 <p>
-                    PinpointQA focuses on small object-centric spatial understanding in indoor videos. It evaluates a
-                    progressive capability chain moving from target perception to reference grounding,
-                    natural-language localization, and structured spatial representation.
-                </p>
-                <p class="caption">
-                    <strong>Figure 1.</strong> PinpointQA decomposes the benchmark into four progressively harder tasks
-                    for target-centered spatial understanding.
+                    PinpointQA introduces a benchmark centered on small household objects in indoor videos. Rather than
+                    only testing whether a model can recognize an object, it evaluates whether the model can determine
+                    its presence, ground it with nearby references, describe its location precisely, and finally express
+                    that location in a structured form that is directly useful for downstream search.
                 </p>
             </div>
         </section>
@@ -157,8 +159,9 @@
 
             <div class="section-text">
                 <p>
-                    We define four tasks that form a progressive chain from target perception to structured spatial
-                    representation.
+                    The benchmark is organized as a progressive capability chain. It starts from target presence
+                    verification, moves to reference grounding and fine-grained spatial description, and ends with
+                    structured spatial prediction for actionable localization.
                 </p>
             </div>
 
@@ -196,14 +199,17 @@
                 <img src="assets/Datapineline.png" alt="Data construction pipeline" class="pipeline-figure">
             </div>
 
+            <p class="caption">
+                <strong>Figure 2.</strong> The pipeline connects scene curation, target-centered spatial relation
+                construction, and task-specific QA generation.
+            </p>
+
             <div class="section-text">
                 <p>
-                    Starting from large-scale indoor 3D scene datasets, PinpointQA builds target-centered spatial
-                    annotations and then generates aligned QA pairs for the four-task formulation.
-                </p>
-                <p class="caption">
-                    <strong>Figure 2.</strong> The pipeline connects scene curation, target-centered spatial relation
-                    construction, and task-specific QA generation.
+                    PinpointQA is built from ScanNet++ and ScanNet200, combining richly annotated indoor scenes with
+                    target-centered spatial reasoning. The pipeline identifies candidate small objects, constructs local
+                    spatial relations between the target and nearby references, and then generates aligned QA pairs for
+                    TPV, NRI, FSD, and SSP under a unified formulation.
                 </p>
             </div>
         </section>
@@ -218,14 +224,17 @@
                 <img src="assets/data.png" alt="Dataset statistics" class="stats-figure">
             </div>
 
+            <p class="caption">
+                <strong>Figure 3.</strong> Distribution overview of tasks, data-source composition, target categories,
+                and video duration.
+            </p>
+
             <div class="section-text">
                 <p>
-                    The benchmark maintains a balanced task distribution while covering diverse target categories,
-                    data-source composition, and a broad range of indoor video durations.
-                </p>
-                <p class="caption">
-                    <strong>Figure 3.</strong> Distribution overview of tasks, data-source composition, target
-                    categories, and video duration.
+                    The benchmark maintains a relatively balanced task distribution across TPV, NRI, FSD, and SSP. It
+                    covers a wide range of daily small objects, combines samples from both ScanNet++ and ScanNet200, and
+                    spans both short-to-medium and longer indoor videos, providing a diverse testbed for
+                    small object-centric spatial understanding.
                 </p>
             </div>
         </section>
@@ -237,7 +246,12 @@
             </div>
 
             <div class="section-text section-text-center">
-                <p>Click any metric to sort the leaderboard.</p>
+                <p>
+                    The benchmark reveals a clear performance gap between early-stage target perception and later-stage
+                    structured spatial prediction. Fine-tuned open-source models achieve the strongest overall results,
+                    while almost all models show a steady decline from TPV to SSP, indicating that executable spatial
+                    grounding remains the most challenging part of the task chain.
+                </p>
             </div>
 
             <div class="leaderboard-meta">
