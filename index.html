@@ -9,34 +9,31 @@
     <title>PinpointQA: A Dataset and Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos</title>
     <meta name="description"
         content="PinpointQA introduces a dataset and benchmark for small object-centric spatial understanding in indoor videos, decomposing it into four progressively harder tasks to evaluate multimodal models' spatial reasoning capabilities.">
-    <meta name="keywords" content="PinpointQA, spatial understanding, indoor videos, multimodal models, benchmark, dataset, small object detection">
+    <meta name="keywords"
+        content="PinpointQA, spatial understanding, indoor videos, multimodal models, benchmark, dataset, small object detection">
 
-    <!-- Open Graph / Social -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="PinpointQA: Small Object-Centric Spatial Understanding Benchmark">
-    <meta property="og:description" content="A dataset and benchmark for small object-centric spatial understanding in indoor videos with four progressive tasks.">
+    <meta property="og:description"
+        content="A dataset and benchmark for small object-centric spatial understanding in indoor videos with four progressive tasks.">
     <meta property="og:image" content="assets/Overview.png">
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="PinpointQA: Small Object-Centric Spatial Understanding Benchmark">
-    <meta name="twitter:description" content="A dataset and benchmark for small object-centric spatial understanding in indoor videos.">
+    <meta name="twitter:description"
+        content="A dataset and benchmark for small object-centric spatial understanding in indoor videos.">
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Outfit:wght@300;400;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
 
-    <!-- Icons -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-    <!-- Structured Data -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -53,392 +50,286 @@
 </head>
 
 <body>
+    <nav class="section-nav">
+        <div class="container nav-inner">
+            <a href="#overview" class="nav-link">Overview</a>
+            <a href="#task-formulation" class="nav-link">Task Formulation</a>
+            <a href="#pipeline" class="nav-link">Pipeline</a>
+            <a href="#dataset-stats" class="nav-link">Dataset Statistics</a>
+            <a href="#benchmark" class="nav-link">Benchmark Performance</a>
+            <a href="#citation" class="nav-link">Citation</a>
+        </div>
+    </nav>
 
-    <!-- Header Section -->
     <header class="header">
-        <div class="container text-center">
-            <h1 class="paper-title">PinpointQA: A Dataset and Benchmark for Small Object-Centric<br>Spatial Understanding in Indoor Videos</h1>
-            <div class="authors">
-                <span class="author">Zhiyu Zhou<sup>1</sup></span>
-                <span class="author">Peilin Liu<sup>1</sup></span>
-                <span class="author">Ruoxuan Zhang<sup>1</sup></span>
-                <span class="author">Luyang Zhang<sup>1</sup></span>
-                <span class="author">Cheng Zhang<sup>1</sup></span>
-                <span class="author">Hongxia Xie<sup>1</sup></span>
-                <span class="author">Wen-Huang Cheng<sup>2</sup></span>
-            </div>
-            <div class="affiliations">
-                <span class="affiliation"><sup>1</sup> Jilin University</span>
-                <span class="author-sep">|</span>
-                <span class="affiliation"><sup>2</sup> National Taiwan University</span>
-            </div>
-            <div class="action-buttons">
-                <a href="#" class="btn"><ion-icon name="document-text-outline"></ion-icon> Paper</a>
-                <a href="https://github.com/rainchowz/PinpointQA" class="btn" target="_blank"><ion-icon name="logo-github"></ion-icon> Code</a>
-                <a href="https://huggingface.co/datasets/RainChow/PinpointQA" class="btn" target="_blank"><ion-icon name="server-outline"></ion-icon> Dataset</a>
-                <a href="#" class="btn"><ion-icon name="library-outline"></ion-icon> arXiv</a>
-                <a href="#" class="btn"><ion-icon name="book-outline"></ion-icon> Supplementary Materials</a>
+        <div class="container hero-shell">
+            <div class="hero-card">
+                <p class="hero-kicker">Dataset & Benchmark</p>
+                <h1 class="paper-title">PinpointQA: A Dataset and Benchmark for Small Object-Centric<br>Spatial Understanding in Indoor Videos</h1>
+
+                <div class="authors">
+                    <span class="author">Zhiyu Zhou<sup>1</sup></span>
+                    <span class="author">Peilin Liu<sup>1</sup></span>
+                    <span class="author">Ruoxuan Zhang<sup>1</sup></span>
+                    <span class="author">Luyang Zhang<sup>1</sup></span>
+                    <span class="author">Cheng Zhang<sup>1</sup></span>
+                    <span class="author">Hongxia Xie<sup>1</sup></span>
+                    <span class="author">Wen-Huang Cheng<sup>2</sup></span>
+                </div>
+
+                <div class="affiliations">
+                    <span class="affiliation"><sup>1</sup> Jilin University</span>
+                    <span class="author-sep">|</span>
+                    <span class="affiliation"><sup>2</sup> National Taiwan University</span>
+                </div>
+
+                <div class="action-buttons">
+                    <a href="#" class="btn"><ion-icon name="document-text-outline"></ion-icon> Paper</a>
+                    <a href="https://github.com/rainchowz/PinpointQA" class="btn" target="_blank"><ion-icon name="logo-github"></ion-icon> Code</a>
+                    <a href="https://huggingface.co/datasets/RainChow/PinpointQA" class="btn" target="_blank"><ion-icon name="server-outline"></ion-icon> Dataset</a>
+                    <a href="#" class="btn"><ion-icon name="book-outline"></ion-icon> Supplementary Materials</a>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="container">
-
-        <!-- Overview Figure -->
-        <section class="section figure-section">
-            <img src="assets/Overview.png" alt="Benchmark Overview" class="main-figure drop-shadow">
-            <p class="caption"><strong>Figure 1.</strong> Benchmark overview. PinpointQA decomposes the target-driven
-                small-object recovery problem into a progressive capability chain, moving from target perception to
-                reference grounding, natural-language localization, and structured spatial representation.</p>
-        </section>
-
-        <!-- Abstract -->
-        <section class="section">
-            <h2 class="section-title">Abstract</h2>
-            <div class="abstract-box">
-                <img src="assets/MM_attract_attn.png" alt="Small Object Recovery Examples" class="abstract-figure">
-                <p>
-                    Small everyday objects such as keys, earbuds, chargers, and phones are frequently misplaced in
-                    realistic indoor environments. Recovering them from video is difficult because they are visually
-                    inconspicuous, weakly textured, easily occluded, and often surrounded by clutter. Existing
-                    benchmarks partially evaluate related capabilities such as video memory, object grounding, tracking,
-                    and spatial reasoning, but they do not directly assess whether a model can recover the last known
-                    location of a specified small object and describe it in an actionable way for real-world retrieval.
+    <main class="container page-content">
+        <section class="section" id="overview">
+            <div class="section-header">
+                <p class="section-eyebrow">Overview</p>
+                <h2 class="section-title">A benchmark for recovering small everyday objects from indoor videos.</h2>
+                <p class="section-subtitle">
+                    PinpointQA evaluates whether models can detect a target, ground it against nearby references,
+                    describe its location, and organize the result into a usable spatial output.
                 </p>
-                <p>
-                    In this work, we formalize this problem as <em>target-driven small-object recovery in video</em>. We
-                    decompose it into a progressive capability chain including target presence verification,
-                    reference-based localization, fine-grained recovery description, and structured actionable
-                    grounding. Based on this formulation, we introduce a new benchmark centered on small household
-                    objects in indoor videos and study whether current multimodal models can recover such targets under
-                    clutter, partial occlusion, weak saliency, and long temporal gaps. The benchmark is designed to
-                    distinguish between recognizing that an object appears, roughly locating it, describing it
-                    precisely, and producing an output that is directly usable for downstream search.
+            </div>
+
+            <div class="feature-grid">
+                <article class="feature-card">
+                    <span class="feature-label">Focus</span>
+                    <h3>Target-driven recovery</h3>
+                    <p>Designed around practical object retrieval rather than generic scene understanding.</p>
+                </article>
+                <article class="feature-card">
+                    <span class="feature-label">Input</span>
+                    <h3>Indoor videos</h3>
+                    <p>Captures clutter, occlusion, long temporal gaps, and weak visual saliency.</p>
+                </article>
+                <article class="feature-card">
+                    <span class="feature-label">Output</span>
+                    <h3>Actionable spatial cues</h3>
+                    <p>Measures whether model outputs can directly support downstream search.</p>
+                </article>
+                <article class="feature-card">
+                    <span class="feature-label">Tasks</span>
+                    <h3>4-stage capability chain</h3>
+                    <p>From appearance verification to structured spatial prediction.</p>
+                </article>
+            </div>
+
+            <div class="media-card">
+                <img src="assets/Overview.png" alt="Benchmark Overview" class="main-figure">
+                <p class="caption">
+                    <strong>Figure 1.</strong> PinpointQA decomposes target-driven small-object recovery into a progressive spatial understanding pipeline.
                 </p>
             </div>
         </section>
 
-        <!-- Motivation -->
-        <section class="section">
-            <h2 class="section-title">Motivation</h2>
-            <div class="text-content">
-                <p>
-                    In everyday environments, users often need more than generic video understanding. What matters is
-                    whether a system can reason about a known target object: whether it appeared, where it ended up,
-                    which nearby objects provide useful cues, and whether this information can be expressed clearly for
-                    downstream use.
-                </p>
-                <p>
-                    Compared with larger objects such as backpacks or televisions, small items like keys and earbuds are
-                    much more likely to "disappear" in indoor environments. They are physically small, visually less
-                    salient, easily occluded, and often surrounded by clutter. Even when they appeared only a short time
-                    earlier, people may still struggle to recall their exact final locations. This difficulty is
-                    consistent with the basic mechanisms of human visual cognition—the human brain does not process all
-                    visual information in a scene equally, but instead gives priority to the parts that are most
-                    relevant to the current goal.
-                </p>
-                <p>
-                    This problem is becoming increasingly relevant in practice. With the development of wearable
-                    assistants, egocentric devices, and multimodal agents, recovering target objects from video is
-                    gradually becoming a meaningful real-world task. Simply recognizing the object category or
-                    identifying a rough scene region is not sufficient. The system must also produce spatial outputs
-                    that can directly support real-world search. However, existing benchmarks—including Ego4D,
-                    VSI-Bench, EgoTracks, and ReferDINO—do not directly answer a practical question: <em>given a known
-                        small object, can a model recover its last known location from a long video and express it in a
-                        sufficiently precise and actionable manner?</em>
-                </p>
+        <section class="section section-compact" id="stats-bar">
+            <div class="stats-strip">
+                <article class="stat-card">
+                    <span class="stat-value">10,094</span>
+                    <span class="stat-label">QA Samples</span>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-value">4</span>
+                    <span class="stat-label">Task Types</span>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-value">2</span>
+                    <span class="stat-label">Source Datasets</span>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-value">6,121 / 1,954 / 2,019</span>
+                    <span class="stat-label">Train / Val / Test</span>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-value">Indoor</span>
+                    <span class="stat-label">Realistic Search Scenes</span>
+                </article>
             </div>
         </section>
 
-        <!-- Task Formulation -->
-        <section class="section">
-            <h2 class="section-title">PinpointQA Task Formulation</h2>
-            <p class="section-subtitle">To evaluate target-centered video spatial understanding for daily small objects,
-                we define four tasks that together form a progressive capability chain—moving from target perception to
-                reference grounding, natural-language localization, and structured spatial representation.</p>
+        <section class="section" id="task-formulation">
+            <div class="section-header">
+                <p class="section-eyebrow">PinpointQA Task Formulation</p>
+                <h2 class="section-title">Four compact tasks define the full recovery pipeline.</h2>
+            </div>
 
             <div class="tasks-grid">
-                <div class="task-card drop-shadow">
+                <div class="task-card">
                     <div class="task-icon"><ion-icon name="eye-outline"></ion-icon></div>
-                    <h3>Target Presence Verification (TPV)</h3>
-                    <p>Given a video and a target object, TPV asks the model to determine whether the target appears in
-                        the video. This task focuses on the most basic level of target perception, especially in indoor
-                        scenes where small objects may be hard to notice due to clutter, occlusion, or viewpoint
-                        changes. TPV serves as the starting point of the task chain, since all later stages rely on
-                        first detecting the target correctly.</p>
+                    <h3>TPV</h3>
+                    <p>Check whether the target object appears in the video.</p>
                 </div>
-                <div class="task-card drop-shadow">
+                <div class="task-card">
                     <div class="task-icon"><ion-icon name="pin-outline"></ion-icon></div>
-                    <h3>Nearest Reference Identification (NRI)</h3>
-                    <p>After confirming the presence of the target, NRI asks the model to identify the reference object
-                        that is closest to the target. The goal is not simple object recognition, but whether the model
-                        can correctly judge local spatial proximity between the target and surrounding objects. NRI
-                        connects target perception with later spatial expression, marking the key step from seeing the
-                        target to understanding its local spatial context.</p>
+                    <h3>NRI</h3>
+                    <p>Identify the nearest reference object around the target.</p>
                 </div>
-                <div class="task-card drop-shadow">
+                <div class="task-card">
                     <div class="task-icon"><ion-icon name="chatbubble-ellipses-outline"></ion-icon></div>
-                    <h3>Fine-Grained Spatial Description (FSD)</h3>
-                    <p>FSD requires the model to describe the location of the target object in natural language based on
-                        the video. The description should be as precise as possible and should use spatial cues such as
-                        the supporting surface, nearby reference objects, relative directions, and distances. Unlike
-                        earlier tasks, FSD requires the model to combine multiple local cues and produce a clear and
-                        accurate localization statement for human users.</p>
+                    <h3>FSD</h3>
+                    <p>Describe the target location with concise spatial language.</p>
                 </div>
-                <div class="task-card drop-shadow">
+                <div class="task-card">
                     <div class="task-icon"><ion-icon name="code-slash-outline"></ion-icon></div>
-                    <h3>Structured Spatial Prediction (SSP)</h3>
-                    <p>Building on FSD, SSP further requires the model to organize the target location into a structured
-                        output rather than free-form text. The model is expected to provide key spatial fields directly
-                        useful for localization, including the supporting object, nearby reference objects, and their
-                        corresponding distances. As the final stage, SSP places the strongest demand on the model's
-                        ability to organize spatial information.</p>
+                    <h3>SSP</h3>
+                    <p>Return the location as structured, directly usable spatial fields.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Data Pipeline -->
-        <section class="section figure-section">
-            <h2 class="section-title">Data Construction Pipeline</h2>
-            <img src="assets/Datapineline.png" alt="Data Construction Pipeline" class="pipeline-figure drop-shadow">
-            <p class="caption"><strong>Figure 2.</strong> Benchmark construction pipeline. Starting from large-scale
-                indoor 3D scene datasets, we progressively build grounded QA pairs for our four-task formulation.</p>
-            <div class="text-content mt-4">
-                <p>
-                    <strong>Data Sources.</strong> Our scenes are drawn from ScanNet++ and ScanNet200, which satisfy two
-                    main requirements: they contain rich instance-level annotations for small objects, and they reflect
-                    an indoor roaming observation pattern that is close to everyday object search, where an observer
-                    moves through a room and gradually finds and localizes a target from different viewpoints.
+        <section class="section" id="pipeline">
+            <div class="section-header">
+                <p class="section-eyebrow">Data Construction Pipeline</p>
+                <h2 class="section-title">From indoor scenes to grounded, target-centric QA pairs.</h2>
+                <p class="section-subtitle">
+                    PinpointQA starts from richly annotated indoor datasets, constructs target-centered spatial
+                    relations, and turns them into aligned question-answer samples across the four tasks.
                 </p>
-                <p>
-                    <strong>Scene Curation.</strong> We use a pre-selected small-object vocabulary to identify candidate
-                    target objects, then combine segmentation results with aligned 3D meshes to build object-level
-                    geometric representations. The pipeline filters nearby objects by centroid distance (keeping those
-                    within 1.0 m by default), then computes fine-grained 3D spatial relations between the target and its
-                    nearby candidates, including edge distance, center distance, horizontal distance, vertical offset,
-                    and relative above-below relations.
-                </p>
-                <p>
-                    <strong>Task-specific QA Generation.</strong> Based on the intermediate target-centered
-                    representation, we generate QA pairs for all four tasks. For TPV, we construct presence questions
-                    with both positive and negative samples. For NRI, we build multiple-choice questions from local
-                    reference objects. For FSD, we organize free-form answers guided by supporting objects, nearby
-                    references, and centimeter-level distances. For SSP, we further organize the same information into a
-                    directly parsable JSON schema.
-                </p>
-                <p>
-                    <strong>Quality Control.</strong> We adopt a quality control process that combines automatic
-                    filtering with manual review. This includes removing invalid labels, enforcing uniqueness
-                    constraints, applying task-specific validity constraints, and conducting multiple rounds of manual
-                    spot-checking to iteratively refine the QA generation logic.
+            </div>
+
+            <div class="media-card">
+                <img src="assets/Datapineline.png" alt="Data Construction Pipeline" class="pipeline-figure">
+                <p class="caption">
+                    <strong>Figure 2.</strong> The pipeline filters candidate targets, computes local spatial relations, and generates task-aligned QA annotations.
                 </p>
             </div>
         </section>
 
-        <!-- Benchmark Statistics -->
-        <section class="section figure-section">
-            <h2 class="section-title">Benchmark Statistics</h2>
-            <img src="assets/data.png" alt="Data Statistics" class="stats-figure drop-shadow">
-            <p class="caption"><strong>Figure 3.</strong> Data statistics of the benchmark from four perspectives: (a)
-                task distribution, (b) data-source composition, (c) target object categories, and (d) video duration
-                distribution.</p>
-            <div class="text-content mt-4">
-                <p>
-                    The benchmark maintains a balanced task distribution: TPV, NRI, FSD, and SSP account for 26.47%,
-                    23.10%, 25.08%, and 25.34% respectively. In terms of data sources, 73.2% of the samples come from
-                    ScanNet++, while 26.8% come from ScanNet200. The benchmark covers a wide range of daily small
-                    objects, with high-frequency targets including mouse, book, bottle, cup, mug, headphones, power
-                    strip, charger, telephone, and notebook.
+        <section class="section" id="dataset-stats">
+            <div class="section-header">
+                <p class="section-eyebrow">Dataset Statistics</p>
+                <h2 class="section-title">A balanced benchmark covering task mix, source composition, target types, and video duration.</h2>
+                <p class="section-subtitle">
+                    The benchmark keeps the four tasks relatively balanced while spanning diverse small-object categories
+                    and both short and long indoor search videos.
                 </p>
-                <p>
-                    Regarding video duration, the largest proportion falls in the 30–60s range (19.04%), followed by
-                    60–90s (15.82%), 120–150s (15.72%), and 90–120s (13.18%). Videos within 0–150s account for 67.67% of
-                    the benchmark, while longer videos are also retained including durations exceeding 270s (5.27%),
-                    ensuring the benchmark covers both short-to-medium indoor search scenarios and more challenging
-                    long-duration cases.
+            </div>
+
+            <div class="media-card">
+                <img src="assets/data.png" alt="Data Statistics" class="stats-figure">
+                <p class="caption">
+                    <strong>Figure 3.</strong> Distribution overview of tasks, data sources, target categories, and video durations.
                 </p>
             </div>
         </section>
 
-        <!-- Experiments -->
-        <section class="section">
-            <h2 class="section-title">Experiments</h2>
-
-            <div class="text-content">
-                <h3 class="subsection-title">Experimental Setup</h3>
-                <p>
-                    We evaluate three groups of multimodal large language models (MLLMs). <strong>Proprietary
-                        models</strong> include GPT-5.4 and Kimi K2.5. <strong>Open-source models</strong> include
-                    LLaVA-OneVision-1.5-8B, Qwen3-VL-8B-Instruct, InternVL3.5-8B-Instruct,
-                    Spatial-MLLM-v1.1-Instruct-820K, SenseNova-SI-1.3-InternVL3-8B, and Cambrian-S-7B. We additionally
-                    conduct LoRA fine-tuning on two representative open-source backbones, yielding
-                    Qwen3-VL-8B-Instruct-SFT and InternVL3.5-8B-Instruct-SFT. The benchmark is partitioned at the scene
-                    level into training, validation, and evaluation splits (approximately 6:2:2), yielding 6,121, 1,954,
-                    and 2,019 samples respectively.
+        <section class="section" id="benchmark">
+            <div class="section-header">
+                <p class="section-eyebrow">Benchmark Performance</p>
+                <h2 class="section-title">Sortable leaderboard across all four tasks.</h2>
+                <p class="section-subtitle">
+                    Click any metric to sort the table and compare models by task or overall average.
                 </p>
             </div>
 
-            <!-- Results Table -->
-            <div class="table-wrapper">
-                <p class="table-caption"><strong>Table 1.</strong> Main results on the proposed benchmark across four
-                    tasks. Micro/Macro denotes the arithmetic mean over all samples using micro and macro averaging,
-                    respectively.</p>
+            <div class="leaderboard-card">
+                <div class="leaderboard-note">
+                    <span class="leaderboard-badge">Default Ranking</span>
+                    <span id="sortStatus">Sorted by Avg Micro (high to low)</span>
+                </div>
+
                 <div class="table-scroll">
-                    <table class="results-table">
+                    <table class="results-table" id="leaderboardTable">
                         <thead>
                             <tr>
-                                <th rowspan="2">Model</th>
-                                <th colspan="2">TPV</th>
-                                <th colspan="2">NRI</th>
-                                <th colspan="2">FSD</th>
-                                <th colspan="2">SSP</th>
-                                <th colspan="2">Avg</th>
-                            </tr>
-                            <tr>
-                                <th>Micro</th>
-                                <th>Macro</th>
-                                <th>Micro</th>
-                                <th>Macro</th>
-                                <th>Micro</th>
-                                <th>Macro</th>
-                                <th>Micro</th>
-                                <th>Macro</th>
-                                <th>Micro</th>
-                                <th>Macro</th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="model" data-sort-type="text">
+                                        Model
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="tpvMicro" data-sort-type="number">
+                                        TPV Micro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="tpvMacro" data-sort-type="number">
+                                        TPV Macro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="nriMicro" data-sort-type="number">
+                                        NRI Micro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="nriMacro" data-sort-type="number">
+                                        NRI Macro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="fsdMicro" data-sort-type="number">
+                                        FSD Micro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="fsdMacro" data-sort-type="number">
+                                        FSD Macro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="sspMicro" data-sort-type="number">
+                                        SSP Micro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="sspMacro" data-sort-type="number">
+                                        SSP Macro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn active" data-sort-key="avgMicro" data-sort-type="number" data-default-order="desc">
+                                        Avg Micro
+                                        <ion-icon name="arrow-down-outline"></ion-icon>
+                                    </button>
+                                </th>
+                                <th>
+                                    <button type="button" class="sort-btn" data-sort-key="avgMacro" data-sort-type="number">
+                                        Avg Macro
+                                        <ion-icon name="swap-vertical-outline"></ion-icon>
+                                    </button>
+                                </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="group-header">
-                                <td colspan="11">Proprietary Models</td>
-                            </tr>
-                            <tr>
-                                <td>GPT-5.4</td>
-                                <td>0.65</td>
-                                <td>0.69</td>
-                                <td>0.39</td>
-                                <td>0.42</td>
-                                <td>0.31</td>
-                                <td>0.32</td>
-                                <td>0.15</td>
-                                <td>0.16</td>
-                                <td>0.38</td>
-                                <td>0.40</td>
-                            </tr>
-                            <tr>
-                                <td>Kimi K2.5</td>
-                                <td>0.80</td>
+
+                        <tbody id="leaderboardBody">
+                            <tr data-model="Qwen3-VL-8B-SFT" data-tpv-micro="0.83" data-tpv-macro="0.84" data-nri-micro="0.44" data-nri-macro="0.45" data-fsd-micro="0.36" data-fsd-macro="0.37" data-ssp-micro="0.29" data-ssp-macro="0.29" data-avg-micro="0.48" data-avg-macro="0.49">
+                                <td>Qwen3-VL-8B-SFT <span class="model-group-badge">Fine-tuned</span></td>
+                                <td>0.83</td>
                                 <td>0.84</td>
-                                <td>0.42</td>
                                 <td>0.44</td>
-                                <td>0.32</td>
-                                <td>0.33</td>
-                                <td>0.15</td>
-                                <td>0.15</td>
-                                <td>0.42</td>
-                                <td>0.44</td>
-                            </tr>
-
-                            <tr class="group-header">
-                                <td colspan="11">Open-source Models</td>
-                            </tr>
-                            <tr>
-                                <td>LLaVA-OneVision-1.5-8B</td>
-                                <td>0.76</td>
-                                <td>0.79</td>
-                                <td>0.30</td>
-                                <td>0.30</td>
-                                <td>0.26</td>
-                                <td>0.27</td>
-                                <td>0.07</td>
-                                <td>0.06</td>
-                                <td>0.35</td>
+                                <td>0.45</td>
                                 <td>0.36</td>
-                            </tr>
-                            <tr>
-                                <td>Qwen3-VL-8B-Instruct</td>
-                                <td>0.78</td>
-                                <td>0.80</td>
                                 <td>0.37</td>
-                                <td>0.37</td>
-                                <td>0.28</td>
                                 <td>0.29</td>
-                                <td>0.12</td>
-                                <td>0.12</td>
-                                <td>0.39</td>
-                                <td>0.40</td>
+                                <td>0.29</td>
+                                <td>0.48</td>
+                                <td>0.49</td>
                             </tr>
-                            <tr>
-                                <td>InternVL3.5-8B-Instruct</td>
-                                <td>0.65</td>
-                                <td>0.70</td>
-                                <td>0.36</td>
-                                <td>0.38</td>
-                                <td>0.25</td>
-                                <td>0.26</td>
-                                <td>0.09</td>
-                                <td>0.10</td>
-                                <td>0.34</td>
-                                <td>0.36</td>
-                            </tr>
-                            <tr>
-                                <td>Spatial-MLLM-v1.1</td>
-                                <td>0.52</td>
-                                <td>0.51</td>
-                                <td>0.30</td>
-                                <td>0.30</td>
-                                <td>0.21</td>
-                                <td>0.20</td>
-                                <td>0.00</td>
-                                <td>0.00</td>
-                                <td>0.26</td>
-                                <td>0.25</td>
-                            </tr>
-                            <tr>
-                                <td>SenseNova-SI-1.3</td>
-                                <td>0.64</td>
-                                <td>0.66</td>
-                                <td>0.36</td>
-                                <td>0.40</td>
-                                <td>0.15</td>
-                                <td>0.16</td>
-                                <td>0.12</td>
-                                <td>0.13</td>
-                                <td>0.32</td>
-                                <td>0.34</td>
-                            </tr>
-                            <tr>
-                                <td>Cambrian-S-7B</td>
-                                <td>0.73</td>
-                                <td>0.78</td>
-                                <td>0.33</td>
-                                <td>0.35</td>
-                                <td>0.24</td>
-                                <td>0.25</td>
-                                <td>0.05</td>
-                                <td>0.06</td>
-                                <td>0.34</td>
-                                <td>0.36</td>
-                            </tr>
-
-                            <tr class="group-header">
-                                <td colspan="11">Fine-tuned Models</td>
-                            </tr>
-                            <tr class="highlight-row">
-                                <td>Qwen3-VL-8B-SFT</td>
-                                <td><strong>0.83</strong></td>
-                                <td><strong>0.84</strong></td>
-                                <td><strong>0.44</strong></td>
-                                <td><strong>0.45</strong></td>
-                                <td><strong>0.36</strong></td>
-                                <td><strong>0.37</strong></td>
-                                <td><strong>0.29</strong></td>
-                                <td><strong>0.29</strong></td>
-                                <td><strong>0.48</strong></td>
-                                <td><strong>0.49</strong></td>
-                            </tr>
-                            <tr class="highlight-row">
-                                <td>InternVL3.5-8B-SFT</td>
+                            <tr data-model="InternVL3.5-8B-SFT" data-tpv-micro="0.82" data-tpv-macro="0.82" data-nri-micro="0.41" data-nri-macro="0.39" data-fsd-micro="0.34" data-fsd-macro="0.36" data-ssp-micro="0.23" data-ssp-macro="0.24" data-avg-micro="0.45" data-avg-macro="0.45">
+                                <td>InternVL3.5-8B-SFT <span class="model-group-badge">Fine-tuned</span></td>
                                 <td>0.82</td>
                                 <td>0.82</td>
                                 <td>0.41</td>
@@ -450,72 +341,126 @@
                                 <td>0.45</td>
                                 <td>0.45</td>
                             </tr>
+                            <tr data-model="Kimi K2.5" data-tpv-micro="0.80" data-tpv-macro="0.84" data-nri-micro="0.42" data-nri-macro="0.44" data-fsd-micro="0.32" data-fsd-macro="0.33" data-ssp-micro="0.15" data-ssp-macro="0.15" data-avg-micro="0.42" data-avg-macro="0.44">
+                                <td>Kimi K2.5 <span class="model-group-badge">Proprietary</span></td>
+                                <td>0.80</td>
+                                <td>0.84</td>
+                                <td>0.42</td>
+                                <td>0.44</td>
+                                <td>0.32</td>
+                                <td>0.33</td>
+                                <td>0.15</td>
+                                <td>0.15</td>
+                                <td>0.42</td>
+                                <td>0.44</td>
+                            </tr>
+                            <tr data-model="Qwen3-VL-8B-Instruct" data-tpv-micro="0.78" data-tpv-macro="0.80" data-nri-micro="0.37" data-nri-macro="0.37" data-fsd-micro="0.28" data-fsd-macro="0.29" data-ssp-micro="0.12" data-ssp-macro="0.12" data-avg-micro="0.39" data-avg-macro="0.40">
+                                <td>Qwen3-VL-8B-Instruct <span class="model-group-badge">Open-source</span></td>
+                                <td>0.78</td>
+                                <td>0.80</td>
+                                <td>0.37</td>
+                                <td>0.37</td>
+                                <td>0.28</td>
+                                <td>0.29</td>
+                                <td>0.12</td>
+                                <td>0.12</td>
+                                <td>0.39</td>
+                                <td>0.40</td>
+                            </tr>
+                            <tr data-model="GPT-5.4" data-tpv-micro="0.65" data-tpv-macro="0.69" data-nri-micro="0.39" data-nri-macro="0.42" data-fsd-micro="0.31" data-fsd-macro="0.32" data-ssp-micro="0.15" data-ssp-macro="0.16" data-avg-micro="0.38" data-avg-macro="0.40">
+                                <td>GPT-5.4 <span class="model-group-badge">Proprietary</span></td>
+                                <td>0.65</td>
+                                <td>0.69</td>
+                                <td>0.39</td>
+                                <td>0.42</td>
+                                <td>0.31</td>
+                                <td>0.32</td>
+                                <td>0.15</td>
+                                <td>0.16</td>
+                                <td>0.38</td>
+                                <td>0.40</td>
+                            </tr>
+                            <tr data-model="LLaVA-OneVision-1.5-8B" data-tpv-micro="0.76" data-tpv-macro="0.79" data-nri-micro="0.30" data-nri-macro="0.30" data-fsd-micro="0.26" data-fsd-macro="0.27" data-ssp-micro="0.07" data-ssp-macro="0.06" data-avg-micro="0.35" data-avg-macro="0.36">
+                                <td>LLaVA-OneVision-1.5-8B <span class="model-group-badge">Open-source</span></td>
+                                <td>0.76</td>
+                                <td>0.79</td>
+                                <td>0.30</td>
+                                <td>0.30</td>
+                                <td>0.26</td>
+                                <td>0.27</td>
+                                <td>0.07</td>
+                                <td>0.06</td>
+                                <td>0.35</td>
+                                <td>0.36</td>
+                            </tr>
+                            <tr data-model="Cambrian-S-7B" data-tpv-micro="0.73" data-tpv-macro="0.78" data-nri-micro="0.33" data-nri-macro="0.35" data-fsd-micro="0.24" data-fsd-macro="0.25" data-ssp-micro="0.05" data-ssp-macro="0.06" data-avg-micro="0.34" data-avg-macro="0.36">
+                                <td>Cambrian-S-7B <span class="model-group-badge">Open-source</span></td>
+                                <td>0.73</td>
+                                <td>0.78</td>
+                                <td>0.33</td>
+                                <td>0.35</td>
+                                <td>0.24</td>
+                                <td>0.25</td>
+                                <td>0.05</td>
+                                <td>0.06</td>
+                                <td>0.34</td>
+                                <td>0.36</td>
+                            </tr>
+                            <tr data-model="InternVL3.5-8B-Instruct" data-tpv-micro="0.65" data-tpv-macro="0.70" data-nri-micro="0.36" data-nri-macro="0.38" data-fsd-micro="0.25" data-fsd-macro="0.26" data-ssp-micro="0.09" data-ssp-macro="0.10" data-avg-micro="0.34" data-avg-macro="0.36">
+                                <td>InternVL3.5-8B-Instruct <span class="model-group-badge">Open-source</span></td>
+                                <td>0.65</td>
+                                <td>0.70</td>
+                                <td>0.36</td>
+                                <td>0.38</td>
+                                <td>0.25</td>
+                                <td>0.26</td>
+                                <td>0.09</td>
+                                <td>0.10</td>
+                                <td>0.34</td>
+                                <td>0.36</td>
+                            </tr>
+                            <tr data-model="SenseNova-SI-1.3" data-tpv-micro="0.64" data-tpv-macro="0.66" data-nri-micro="0.36" data-nri-macro="0.40" data-fsd-micro="0.15" data-fsd-macro="0.16" data-ssp-micro="0.12" data-ssp-macro="0.13" data-avg-micro="0.32" data-avg-macro="0.34">
+                                <td>SenseNova-SI-1.3 <span class="model-group-badge">Open-source</span></td>
+                                <td>0.64</td>
+                                <td>0.66</td>
+                                <td>0.36</td>
+                                <td>0.40</td>
+                                <td>0.15</td>
+                                <td>0.16</td>
+                                <td>0.12</td>
+                                <td>0.13</td>
+                                <td>0.32</td>
+                                <td>0.34</td>
+                            </tr>
+                            <tr data-model="Spatial-MLLM-v1.1" data-tpv-micro="0.52" data-tpv-macro="0.51" data-nri-micro="0.30" data-nri-macro="0.30" data-fsd-micro="0.21" data-fsd-macro="0.20" data-ssp-micro="0.00" data-ssp-macro="0.00" data-avg-micro="0.26" data-avg-macro="0.25">
+                                <td>Spatial-MLLM-v1.1 <span class="model-group-badge">Open-source</span></td>
+                                <td>0.52</td>
+                                <td>0.51</td>
+                                <td>0.30</td>
+                                <td>0.30</td>
+                                <td>0.21</td>
+                                <td>0.20</td>
+                                <td>0.00</td>
+                                <td>0.00</td>
+                                <td>0.26</td>
+                                <td>0.25</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
-            <!-- Key Findings -->
-            <div class="text-content mt-4">
-                <h3 class="subsection-title">Key Findings</h3>
-                <p>
-                    <strong>Overall competitiveness.</strong> Qwen3-VL-8B-Instruct-SFT achieves the best overall
-                    performance (0.48/0.49 Avg Micro/Macro), followed by InternVL3.5-8B-Instruct-SFT (0.45/0.45). Among
-                    proprietary models, Kimi K2.5 outperforms GPT-5.4 (0.42/0.44 vs. 0.38/0.40). Notably, among
-                    non-fine-tuned open-source models, Qwen3-VL-8B-Instruct already exceeds GPT-5.4 in Avg-Micro and
-                    matches it in Avg-Macro.
-                </p>
-                <p>
-                    <strong>Progressive capability breakdown.</strong> A clear pattern is the monotonic decline from TPV
-                    to SSP, appearing across almost all models. For example, Qwen3-VL-8B-Instruct-SFT drops from
-                    0.83/0.84 on TPV to 0.29/0.29 on SSP, and Kimi K2.5 drops from 0.80/0.84 to 0.15/0.15. This confirms
-                    that current MLLMs do not fail at one isolated step. Instead, performance degrades steadily as the
-                    task moves from target perception to structured spatial output, directly supporting the meaning of
-                    the four-stage task design.
-                </p>
-                <p>
-                    <strong>Stage-specific failure profiles.</strong> Different models break down at different stages.
-                    LLaVA-OneVision-1.5-8B reaches 0.76/0.79 on TPV but only 0.07/0.06 on SSP. In contrast,
-                    SenseNova-SI-1.3 attains 0.36/0.40 on NRI yet only 0.15/0.16 on FSD, suggesting a different
-                    bottleneck between reference grounding and natural-language localization. These differences indicate
-                    that the benchmark can reveal <em>where</em> the failure first occurs.
-                </p>
-                <p>
-                    <strong>Training utility.</strong> Fine-tuning shows that the benchmark is effective as a training
-                    resource. Qwen3-VL-8B-Instruct improves from 0.39/0.40 to 0.48/0.49 in Avg, with the largest gains
-                    on SSP (0.12→0.29). Even so, SSP remains far below the other tasks, showing that executable spatial
-                    grounding is still the most difficult stage for current models.
-                </p>
-            </div>
         </section>
 
-        <!-- Conclusion -->
-        <section class="section">
-            <h2 class="section-title">Conclusion</h2>
-            <div class="text-content">
-                <p>
-                    We introduced a benchmark for target-driven small-object recovery in video, focusing on
-                    spatiotemporal localization and fine-grained spatial relation description in realistic indoor
-                    environments. By decomposing the problem into four progressively harder tasks, the benchmark
-                    distinguishes coarse target awareness from precise, reference-grounded, and actionable recovery.
-                    This design makes it possible to evaluate not only whether a model can detect a target, but whether
-                    it can support actual retrieval.
-                </p>
-                <p>
-                    More broadly, the benchmark shifts evaluation from generic scene understanding toward a more
-                    practical question: <em>can a multimodal system help a user recover a misplaced small object from
-                        video?</em> We hope this benchmark will support future work on egocentric memory, target-driven
-                    spatial grounding, and multimodal assistants that operate in realistic daily environments.
-                </p>
+        <section class="section section-compact" id="citation">
+            <div class="section-header">
+                <p class="section-eyebrow">Citation</p>
+                <h2 class="section-title">BibTeX</h2>
             </div>
-        </section>
 
-        <!-- Citation -->
-        <section class="section">
-            <h2 class="section-title">Citation</h2>
             <div class="bibtex-box">
-                <button class="copy-btn" id="copyBibBtn" title="Copy to clipboard"><ion-icon
-                        name="copy-outline"></ion-icon></button>
+                <button class="copy-btn" id="copyBibBtn" title="Copy to clipboard">
+                    <ion-icon name="copy-outline"></ion-icon>
+                </button>
                 <pre><code id="bibtex-code">@article{zhou2024pinpointqa,
   title={PinpointQA: A Dataset and Benchmark for Small Object-Centric
          Spatial Understanding in Indoor Videos},
@@ -526,11 +471,10 @@
 }</code></pre>
             </div>
         </section>
-
     </main>
 
     <footer class="footer">
-        <div class="container text-center">
+        <div class="container">
             <p>&copy; 2024 Zhiyu Zhou et al. Project page for <strong>PinpointQA</strong>.</p>
         </div>
     </footer>

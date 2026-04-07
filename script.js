@@ -1,56 +1,145 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // BibTeX Copy Functionality
-    const copyBtn = document.getElementById('copyBibBtn');
-    const bibtexCode = document.getElementById('bibtex-code');
+document.addEventListener("DOMContentLoaded", () => {
+    const copyBtn = document.getElementById("copyBibBtn");
+    const bibtexCode = document.getElementById("bibtex-code");
 
     if (copyBtn && bibtexCode) {
-        copyBtn.addEventListener('click', async () => {
+        copyBtn.addEventListener("click", async () => {
             try {
                 await navigator.clipboard.writeText(bibtexCode.innerText);
-                // Update icon to checkmark temporarily
                 copyBtn.innerHTML = '<ion-icon name="checkmark-outline"></ion-icon>';
-                copyBtn.style.color = '#10B981';
+                copyBtn.style.color = "#34d399";
                 setTimeout(() => {
                     copyBtn.innerHTML = '<ion-icon name="copy-outline"></ion-icon>';
-                    copyBtn.style.color = '';
-                }, 2000);
-            } catch (err) {
-                console.error('Failed to copy text: ', err);
+                    copyBtn.style.color = "";
+                }, 1800);
+            } catch (error) {
+                console.error("Failed to copy BibTeX:", error);
             }
         });
     }
 
-    // Smooth reveal animation on scroll
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
+    const navLinks = Array.from(document.querySelectorAll(".nav-link"));
+    const sections = Array.from(document.querySelectorAll("main .section[id]"));
 
-    const revealOnScroll = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+    const updateActiveNav = () => {
+        let currentId = "";
+
+        sections.forEach((section) => {
+            const rect = section.getBoundingClientRect();
+            if (rect.top <= 140 && rect.bottom >= 140) {
+                currentId = section.id;
             }
         });
-    }, observerOptions);
 
-    // Observe sections for scroll animation
-    document.querySelectorAll('.section').forEach(section => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        revealOnScroll.observe(section);
-    });
+        navLinks.forEach((link) => {
+            const isActive = link.getAttribute("href") === `#${currentId}`;
+            link.classList.toggle("active", isActive);
+        });
+    };
 
-    // Add active state for buttons on touch devices
-    document.querySelectorAll('.btn').forEach(btn => {
-        btn.addEventListener('touchstart', function() {
-            this.style.transform = 'translateY(-2px)';
+    updateActiveNav();
+    window.addEventListener("scroll", updateActiveNav, { passive: true });
+
+    const table = document.getElementById("leaderboardTable");
+    const tbody = document.getElementById("leaderboardBody");
+    const sortButtons = Array.from(document.querySelectorAll(".sort-btn"));
+    const sortStatus = document.getElementById("sortStatus");
+
+    if (table && tbody) {
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+        let currentSort = {
+            key: "avgMicro",
+            type: "number",
+            order: "desc"
+        };
+
+        const keyToDatasetName = (key) =>
+            key.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
+
+        const getCellValue = (row, key, type) => {
+            if (key === "model") {
+                return row.dataset.model || "";
+            }
+
+            const datasetKey = keyToDatasetName(key);
+            const value = row.dataset[datasetKey.replace(/-([a-z])/g, (_, char) => char.toUpperCase())];
+
+            if (type === "number") {
+                return Number.parseFloat(value || "0");
+            }
+
+            return value || "";
+        };
+
+        const updateButtonStates = (activeButton, order) => {
+            sortButtons.forEach((button) => {
+                button.classList.remove("active");
+
+                const icon = button.querySelector("ion-icon");
+                if (!icon) return;
+
+                if (button === activeButton) {
+                    button.classList.add("active");
+                    icon.setAttribute("name", order === "desc" ? "arrow-down-outline" : "arrow-up-outline");
+                } else {
+                    icon.setAttribute("name", "swap-vertical-outline");
+                }
+            });
+        };
+
+        const updateRankHighlight = () => {
+            const orderedRows = Array.from(tbody.querySelectorAll("tr"));
+            orderedRows.forEach((row, index) => {
+                row.classList.toggle("top-rank", index < 3);
+            });
+        };
+
+        const renderSortedRows = () => {
+            const sortedRows = [...rows].sort((a, b) => {
+                const aValue = getCellValue(a, currentSort.key, currentSort.type);
+                const bValue = getCellValue(b, currentSort.key, currentSort.type);
+
+                if (currentSort.type === "text") {
+                    return currentSort.order === "asc"
+                        ? String(aValue).localeCompare(String(bValue))
+                        : String(bValue).localeCompare(String(aValue));
+                }
+
+                return currentSort.order === "asc" ? aValue - bValue : bValue - aValue;
+            });
+
+            tbody.innerHTML = "";
+            sortedRows.forEach((row) => tbody.appendChild(row));
+            updateRankHighlight();
+
+            if (sortStatus) {
+                const label = currentSort.key.replace(/([A-Z])/g, " $1").replace(/^./, (char) => char.toUpperCase());
+                sortStatus.textContent = `Sorted by ${label} (${currentSort.order === "desc" ? "high to low" : "low to high"})`;
+            }
+        };
+
+        sortButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                const key = button.dataset.sortKey;
+                const type = button.dataset.sortType || "text";
+
+                if (currentSort.key === key) {
+                    currentSort.order = currentSort.order === "desc" ? "asc" : "desc";
+                } else {
+                    currentSort.key = key;
+                    currentSort.type = type;
+                    currentSort.order = button.dataset.defaultOrder || (type === "number" ? "desc" : "asc");
+                }
+
+                updateButtonStates(button, currentSort.order);
+                renderSortedRows();
+            });
         });
-        btn.addEventListener('touchend', function() {
-            this.style.transform = '';
-        });
-    });
+
+        const defaultButton = document.querySelector('.sort-btn[data-sort-key="avgMicro"]');
+        if (defaultButton) {
+            updateButtonStates(defaultButton, "desc");
+        }
+        renderSortedRows();
+    }
 });
