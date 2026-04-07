@@ -202,6 +202,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const DEMO_SCORING_RADIUS = 0.12;
 
     const demoQuestionText = document.getElementById("demoQuestionText");
+    const demoHintPanel = document.getElementById("demoHintPanel");
+    const demoHintText = document.getElementById("demoHintText");
     const demoStageCounter = document.getElementById("demoStageCounter");
     const demoStageHint = document.getElementById("demoStageHint");
     const demoMainWrap = document.getElementById("demoMainWrap");
@@ -218,16 +220,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const demoNextCard = document.getElementById("demoNextCard");
     const demoStartBtn = document.getElementById("demoStartBtn");
     const demoSaveBtn = document.getElementById("demoSaveBtn");
-    const demoShowGtBtn = document.getElementById("demoShowGtBtn");
+    const demoHintBtn = document.getElementById("demoHintBtn");
     const demoNextBtn = document.getElementById("demoNextBtn");
     const demoExampleLabel = document.getElementById("demoExampleLabel");
     const demoElapsed = document.getElementById("demoElapsed");
     const demoAccuracy = document.getElementById("demoAccuracy");
     const demoSummary = document.getElementById("demoSummary");
-    const demoGroundTruthText = document.getElementById("demoGroundTruthText");
 
     if (
         demoQuestionText &&
+        demoHintPanel &&
+        demoHintText &&
         demoStageCounter &&
         demoStageHint &&
         demoMainWrap &&
@@ -240,15 +243,16 @@ document.addEventListener("DOMContentLoaded", () => {
         demoPrevName &&
         demoNextImage &&
         demoNextName &&
+        demoPrevCard &&
+        demoNextCard &&
         demoStartBtn &&
         demoSaveBtn &&
-        demoShowGtBtn &&
+        demoHintBtn &&
         demoNextBtn &&
         demoExampleLabel &&
         demoElapsed &&
         demoAccuracy &&
-        demoSummary &&
-        demoGroundTruthText
+        demoSummary
     ) {
         const demoState = {
             sampleIndex: 0,
@@ -256,7 +260,8 @@ document.addEventListener("DOMContentLoaded", () => {
             started: false,
             startTime: null,
             clickPoint: null,
-            showGt: false,
+            hintShown: false,
+            locationShown: false,
             results: []
         };
 
@@ -265,9 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return ((value % length) + length) % length;
         };
 
-        const formatSeconds = (seconds) => {
-            return `${seconds.toFixed(1)} s`;
-        };
+        const formatSeconds = (seconds) => `${seconds.toFixed(1)} s`;
 
         const scoreClick = (sample, clickPoint) => {
             if (!clickPoint) {
@@ -294,27 +297,37 @@ document.addEventListener("DOMContentLoaded", () => {
             };
         };
 
-        const placeMarker = (marker, x, y) => {
-            marker.style.left = `${x * 100}%`;
-            marker.style.top = `${y * 100}%`;
-            marker.classList.remove("hidden");
-        };
-
         const hideMarker = (marker) => {
             marker.classList.add("hidden");
+        };
+
+        const placeMarkerOnImage = (marker, x, y) => {
+            const imageWidth = demoMainImage.clientWidth;
+            const imageHeight = demoMainImage.clientHeight;
+            const offsetLeft = demoMainImage.offsetLeft;
+            const offsetTop = demoMainImage.offsetTop;
+
+            if (!imageWidth || !imageHeight) {
+                hideMarker(marker);
+                return;
+            }
+
+            marker.style.left = `${offsetLeft + x * imageWidth}px`;
+            marker.style.top = `${offsetTop + y * imageHeight}px`;
+            marker.classList.remove("hidden");
         };
 
         const renderMarkers = () => {
             const sample = demoSamples[demoState.sampleIndex];
 
             if (demoState.clickPoint && demoState.clickPoint.frameIndex === demoState.frameIndex) {
-                placeMarker(demoClickMarker, demoState.clickPoint.x, demoState.clickPoint.y);
+                placeMarkerOnImage(demoClickMarker, demoState.clickPoint.x, demoState.clickPoint.y);
             } else {
                 hideMarker(demoClickMarker);
             }
 
-            if (demoState.showGt && sample.groundTruth.frameIndex === demoState.frameIndex) {
-                placeMarker(demoGtMarker, sample.groundTruth.x, sample.groundTruth.y);
+            if (demoState.locationShown && sample.groundTruth.frameIndex === demoState.frameIndex) {
+                placeMarkerOnImage(demoGtMarker, sample.groundTruth.x, sample.groundTruth.y);
             } else {
                 hideMarker(demoGtMarker);
             }
@@ -335,8 +348,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             demoNextImage.src = sample.frames[nextFrame];
             demoNextName.textContent = `${nextFrame + 1}.png`;
-
-            renderMarkers();
         };
 
         const renderSummary = () => {
@@ -345,12 +356,41 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            const accuracyAvg =
+            const avgAccuracy =
                 demoState.results.reduce((sum, item) => sum + item.accuracy, 0) / demoState.results.length;
-            const timeAvg =
+            const avgTime =
                 demoState.results.reduce((sum, item) => sum + item.elapsed, 0) / demoState.results.length;
 
-            demoSummary.textContent = `Completed ${demoState.results.length}/${demoSamples.length} examples | Avg accuracy ${accuracyAvg.toFixed(1)}% | Avg time ${formatSeconds(timeAvg)}`;
+            demoSummary.textContent = `Completed ${demoState.results.length}/${demoSamples.length} examples | Avg accuracy ${avgAccuracy.toFixed(1)}% | Avg time ${formatSeconds(avgTime)}`;
+        };
+
+        const renderHintState = () => {
+            const sample = demoSamples[demoState.sampleIndex];
+
+            if (demoState.hintShown) {
+                demoHintPanel.classList.remove("hidden");
+                demoHintText.textContent = sample.groundTruthText;
+            } else {
+                demoHintPanel.classList.add("hidden");
+                demoHintText.textContent = "";
+            }
+
+            if (!demoState.started) {
+                demoHintBtn.disabled = true;
+                demoHintBtn.textContent = "Show Hint";
+                return;
+            }
+
+            demoHintBtn.disabled = false;
+
+            if (!demoState.hintShown) {
+                demoHintBtn.textContent = "Show Hint";
+            } else if (!demoState.locationShown) {
+                demoHintBtn.textContent = "Show Location";
+            } else {
+                demoHintBtn.textContent = "Location Shown";
+                demoHintBtn.disabled = true;
+            }
         };
 
         const renderSample = () => {
@@ -358,7 +398,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             demoQuestionText.textContent = sample.question;
             demoExampleLabel.textContent = `${sample.title} (${demoState.sampleIndex + 1} / ${demoSamples.length})`;
-            demoGroundTruthText.textContent = sample.groundTruthText;
             demoElapsed.textContent = "-";
             demoAccuracy.textContent = "-";
             demoStageHint.textContent = demoState.started
@@ -366,29 +405,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 : "Click Start to begin this example.";
             demoMainLock.classList.toggle("hidden", demoState.started);
             demoSaveBtn.disabled = !demoState.started || !demoState.clickPoint;
-            demoShowGtBtn.disabled = !demoState.started;
-            demoShowGtBtn.textContent = demoState.showGt ? "Hide GT" : "Show GT";
+
+            renderHintState();
             renderFrame();
             renderSummary();
+            renderMarkers();
         };
 
         const startSample = () => {
             demoState.started = true;
             demoState.startTime = performance.now();
             demoState.clickPoint = null;
-            demoState.showGt = false;
+            demoState.hintShown = false;
+            demoState.locationShown = false;
+
             demoStageHint.textContent = demoSamples[demoState.sampleIndex].instruction;
             demoMainLock.classList.add("hidden");
             demoSaveBtn.disabled = true;
-            demoShowGtBtn.disabled = false;
-            demoShowGtBtn.textContent = "Show GT";
-            demoElapsed.textContent = "-";
-            demoAccuracy.textContent = "-";
+            renderHintState();
             renderMarkers();
         };
 
         const saveAnswer = () => {
-            if (!demoState.started || !demoState.clickPoint) return;
+            if (!demoState.started || !demoState.clickPoint || demoState.startTime === null) return;
 
             const sample = demoSamples[demoState.sampleIndex];
             const elapsed = (performance.now() - demoState.startTime) / 1000;
@@ -414,6 +453,11 @@ document.addEventListener("DOMContentLoaded", () => {
             demoStageHint.textContent = score.sameFrame
                 ? `Answer recorded. Accuracy ${accuracyText}.`
                 : "Answer recorded. Wrong frame selected.";
+
+            demoState.started = false;
+            demoState.startTime = null;
+            demoSaveBtn.disabled = true;
+            renderHintState();
             renderSummary();
         };
 
@@ -423,7 +467,8 @@ document.addEventListener("DOMContentLoaded", () => {
             demoState.started = false;
             demoState.startTime = null;
             demoState.clickPoint = null;
-            demoState.showGt = false;
+            demoState.hintShown = false;
+            demoState.locationShown = false;
             renderSample();
         };
 
@@ -446,29 +491,45 @@ document.addEventListener("DOMContentLoaded", () => {
             renderMarkers();
         });
 
-        demoMainImage.addEventListener("load", renderMarkers);
+        demoMainImage.addEventListener("load", () => {
+            requestAnimationFrame(renderMarkers);
+        });
         window.addEventListener("resize", renderMarkers);
 
         demoPrevCard.addEventListener("click", () => {
             if (!demoState.started) return;
             demoState.frameIndex = clampIndex(demoState.frameIndex - 1, demoSamples[demoState.sampleIndex].frames.length);
             renderFrame();
+            requestAnimationFrame(renderMarkers);
         });
 
         demoNextCard.addEventListener("click", () => {
             if (!demoState.started) return;
             demoState.frameIndex = clampIndex(demoState.frameIndex + 1, demoSamples[demoState.sampleIndex].frames.length);
             renderFrame();
+            requestAnimationFrame(renderMarkers);
         });
 
         demoStartBtn.addEventListener("click", startSample);
+
         demoSaveBtn.addEventListener("click", saveAnswer);
-        demoShowGtBtn.addEventListener("click", () => {
+
+        demoHintBtn.addEventListener("click", () => {
             if (!demoState.started) return;
-            demoState.showGt = !demoState.showGt;
-            demoShowGtBtn.textContent = demoState.showGt ? "Hide GT" : "Show GT";
-            renderMarkers();
+
+            if (!demoState.hintShown) {
+                demoState.hintShown = true;
+                renderHintState();
+                return;
+            }
+
+            if (!demoState.locationShown) {
+                demoState.locationShown = true;
+                renderHintState();
+                renderMarkers();
+            }
         });
+
         demoNextBtn.addEventListener("click", nextSample);
 
         renderSample();

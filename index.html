@@ -139,6 +139,11 @@
                     <div class="demo-question-text" id="demoQuestionText">Please click Start to begin the demo.</div>
                 </div>
 
+                <div class="demo-hint-panel hidden" id="demoHintPanel">
+                    <div class="demo-hint-label">Hint</div>
+                    <div class="demo-hint-text" id="demoHintText">-</div>
+                </div>
+
                 <div class="demo-stage-layout">
                     <aside class="demo-side-card" id="demoPrevCard">
                         <div class="demo-preview-chip">← Previous</div>
@@ -169,7 +174,7 @@
                         <div class="demo-controls">
                             <button class="button ghost" id="demoStartBtn">Start</button>
                             <button class="button success" id="demoSaveBtn" disabled>Save Answer</button>
-                            <button class="button secondary" id="demoShowGtBtn" disabled>Show GT</button>
+                            <button class="button secondary" id="demoHintBtn" disabled>Show Hint</button>
                             <button class="button primary" id="demoNextBtn">Next Example</button>
                         </div>
                     </div>
@@ -200,12 +205,6 @@
                         <span class="demo-result-label">Session Summary</span>
                         <span class="demo-result-value" id="demoSummary">Start the demo and complete an example to see the running summary.</span>
                     </div>
-                </div>
-
-                <div class="section-text">
-                    <p id="demoGroundTruthText">
-                        Ground-truth description will appear here after you start the example.
-                    </p>
                 </div>
             </div>
         </section>
