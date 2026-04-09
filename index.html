@@ -247,8 +247,8 @@
             <div class="section-text">
                 <p>
                     The benchmark is organized as a progressive capability chain. It starts from target presence
-                    verification, moves to reference grounding and fine-grained spatial description, and ends with
-                    structured spatial prediction for actionable localization.
+                    verification, moves to nearest reference identification and fine-grained spatial description, and ends with
+                    structured spatial prediction.
                 </p>
             </div>
 
@@ -287,15 +287,13 @@
             </div>
 
             <p class="caption">
-                <strong>Figure 2.</strong> The pipeline connects scene curation, target-centered spatial relation
-                construction, and task-specific QA generation.
+                <strong>Figure 2.</strong> The pipeline connects scene curation, small object-centric intermediate spatial representation construction, and task-specific QA generation.
             </p>
 
             <div class="section-text">
                 <p>
                     PinpointQA is built from ScanNet++ and ScanNet200, combining richly annotated indoor scenes with
-                    target-centered spatial reasoning. The pipeline identifies candidate small objects, constructs local
-                    spatial relations between the target and nearby references, and then generates aligned QA pairs for
+                    small object-centric spatial reasoning. The pipeline identifies candidate small objects, constructs intermediate spatial representations between the target and nearby references, and then generates aligned QA pairs for
                     TPV, NRI, FSD, and SSP under a unified formulation.
                 </p>
             </div>
