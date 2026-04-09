@@ -21,7 +21,7 @@
   </em>
 </p>
 
-> **Important:** This repository releases **benchmark annotations** and **grounded intermediate spatial representations** only. It does **not** redistribute the original scene assets or converted video files. Please refer to the **Source Data Preparation** section in the [Hugging Face dataset card](https://huggingface.co/datasets/RainChow/PinpointQA) for details on obtaining the source assets and preparing local videos for reproduction.
+> **Important:** This repository releases **benchmark annotations** and **intermediate spatial representations** only. It does **not** redistribute the original scene assets or converted video files. Please refer to the **Source Data Preparation** section in the [Hugging Face dataset card](https://huggingface.co/datasets/RainChow/PinpointQA) for details on obtaining the source assets and preparing local videos for reproduction.
 
 ## 🧭 Overview
 
@@ -93,7 +93,7 @@ The recommended workflow is:
 1. Download the released `test.jsonl` from Hugging Face.
 2. Convert `test.jsonl` into scene-level ground-truth JSON files.
 3. Organize your model predictions as one JSON file per scene.
-4. Run `eval.py` with `gt_dir`, `pred_dir`, and `eval_prompt.txt`.
+4. Run `eval.py`.
 
 ### 3. Convert `test.jsonl` to `gt_dir`
 
