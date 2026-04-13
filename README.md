@@ -215,9 +215,10 @@ These scripts help convert source recordings into standard MP4 videos for downst
 If you find PinpointQA useful, please cite:
 
 ```bibtex
-@misc{zhou2026pinpointqa,
-  title={PinpointQA: A Dataset and Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos},
-  author={Zhiyu Zhou and Peilin Liu and Ruoxuan Zhang and Luyang Zhang and Cheng Zhang and Hongxia Xie and Wen-Huang Cheng},
-  year={2026}
+@article{zhou2026pinpointqa,
+author  = {Zhiyu Zhou and Peilin Liu and Ruoxuan Zhang and Luyang Zhang and Cheng Zhang and Hongxia Xie and Wen-Huang Cheng},
+title   = {PinpointQA: A Dataset and Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos},
+journal = {arXiv preprint arXiv:2604.08991},
+year    = {2026}
 }
 ```
