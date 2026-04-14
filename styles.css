@@ -246,6 +246,16 @@ button {
     box-shadow: var(--shadow-md);
 }
 
+.figure-card {
+    overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.stats-figure-card {
+    max-width: 920px;
+    margin: 0 auto;
+}
+
 .main-figure,
 .pipeline-figure,
 .stats-figure {
@@ -253,6 +263,11 @@ button {
     border-radius: 16px;
     border: 1px solid var(--border);
     background: #ffffff;
+    transition: transform 220ms ease, filter 220ms ease;
+}
+
+.stats-figure {
+    margin: 0 auto;
 }
 
 .caption {
@@ -261,6 +276,7 @@ button {
     color: var(--text-muted);
     font-size: 0.86rem;
     line-height: 1.6;
+    transition: transform 180ms ease, color 180ms ease;
 }
 
 .caption strong {
@@ -839,6 +855,65 @@ button {
     font-size: 0.98rem;
     font-weight: 800;
     line-height: 1.5;
+}
+
+.section-text p,
+.paper-title,
+.author,
+.affiliation,
+.task-card,
+.stat-card,
+.demo-question-card,
+.demo-result-item {
+    transition: transform 180ms ease, color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.demo-preview-wrap img,
+.demo-main-wrap img {
+    transition: transform 220ms ease, filter 220ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .figure-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--border-strong);
+        box-shadow: 0 22px 46px rgba(15, 23, 42, 0.1);
+    }
+
+    .figure-card:hover .main-figure,
+    .figure-card:hover .pipeline-figure,
+    .figure-card:hover .stats-figure {
+        transform: scale(1.012);
+        filter: saturate(1.03);
+    }
+
+    .demo-preview-wrap:hover img,
+    .demo-main-wrap:hover img {
+        transform: scale(1.01);
+        filter: saturate(1.04);
+    }
+
+    .section-text p:hover,
+    .caption:hover {
+        transform: translateY(-1px);
+        color: var(--text-primary);
+    }
+
+    .paper-title:hover,
+    .author:hover,
+    .affiliation:hover {
+        transform: translateY(-1px);
+        color: var(--accent-dark);
+    }
+
+    .task-card:hover,
+    .stat-card:hover,
+    .demo-question-card:hover,
+    .demo-result-item:hover {
+        transform: translateY(-2px);
+        border-color: var(--border-strong);
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+    }
 }
 
 @media (max-width: 1100px) {
