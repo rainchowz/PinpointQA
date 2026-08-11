@@ -1,4 +1,4 @@
-<h1 align="center">PinpointQA: A Dataset and Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos</h1>
+<h1 align="center">PinpointQA: A Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos</h1>
 
 <p align="center">
   <a href="https://rainchowz.github.io/PinpointQA/">
