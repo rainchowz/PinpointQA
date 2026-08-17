@@ -377,14 +377,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!demoState.started) {
                 demoHintBtn.disabled = true;
-                demoHintBtn.textContent = "Show Hint";
+                demoHintBtn.textContent = "Show FSD";
                 return;
             }
 
             demoHintBtn.disabled = false;
 
             if (!demoState.hintShown) {
-                demoHintBtn.textContent = "Show Hint";
+                demoHintBtn.textContent = "Show FSD";
             } else if (!demoState.locationShown) {
                 demoHintBtn.textContent = "Show Location";
             } else {

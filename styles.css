@@ -142,10 +142,54 @@ button {
     align-items: center;
     flex-wrap: wrap;
     gap: 8px 16px;
-    margin-bottom: 22px;
+    margin-bottom: 14px;
     color: var(--text-muted);
     font-size: 0.95rem;
     font-weight: 600;
+}
+
+.venue-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 22px;
+}
+
+.venue-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 28px;
+    border-radius: var(--radius-pill);
+    border: 1.5px solid #16a34a;
+    background: #ecfdf3;
+    color: #15803d;
+    font-family: var(--font-heading);
+    font-size: 0.92rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    box-shadow: 0 6px 16px rgba(22, 163, 74, 0.12);
+    animation: venue-float 2.8s ease-in-out infinite;
+    transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
+}
+
+.venue-badge:hover {
+    animation: none;
+    transform: translateY(-6px) scale(1.04);
+    background: #dcfce7;
+    border-color: #15803d;
+    box-shadow: 0 14px 28px rgba(22, 163, 74, 0.28);
+}
+
+@keyframes venue-float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
 }
 
 .author-sep {
@@ -520,7 +564,7 @@ button {
     font-size: 0.9rem;
 }
 
-/* Human Assistance Demo */
+/* Human Localization with FSD Guidance Demo */
 .human-demo-shell {
     margin-top: 18px;
 }

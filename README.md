@@ -10,14 +10,14 @@
 </p>
 
 <p align="center">
-  <img src="assets/Overview.png" alt="PinpointQA Overview" width="100%"/>
+  <img src="assets/Overview.jpg" alt="PinpointQA Overview" width="100%"/>
 </p>
 
 <p align="center">
   <em>
-    PinpointQA is a dataset and benchmark for small object-centric spatial understanding in indoor videos,
-    with four tasks covering target presence verification, nearest reference identification,
-    fine-grained spatial description, and structured spatial prediction.
+    PinpointQA is a benchmark for small object-centric spatial understanding in indoor videos,
+    with four progressive tasks: Target Presence Verification (TPV), Nearest Reference Identification (NRI),
+    Fine-Grained Spatial Description (FSD), and Structured Spatial Prediction (SSP).
   </em>
 </p>
 
@@ -25,7 +25,7 @@
 
 ## 🧭 Overview
 
-**PinpointQA** is a dataset and benchmark for evaluating whether multimodal models can determine whether a specified small object appears in an indoor scene, localize it through nearby references, describe its final location precisely in natural language, and express the same grounded information in a form useful to both humans and downstream systems.
+**PinpointQA** benchmarks whether multimodal models can localize small indoor objects from video and express their position with sufficient precision. The benchmark is built from ScanNet++ and ScanNet200 and contains **1,024 scenes** and **10,094 QA pairs**, organized as a progressive capability chain from target presence verification to structured spatial prediction.
 
 The benchmark contains four tasks:
 - **TPV**: Target Presence Verification
@@ -44,7 +44,7 @@ This repository contains the **evaluation code**, **prompt template**, and **uti
 ```text
 PinpointQA/
 ├── assets/
-│   └── Overview.png
+│   └── Overview.jpg
 ├── tools/
 │   ├── convert_mkv_to_mp4.py
 │   ├── convert_sens_to_mp4.py
@@ -217,8 +217,9 @@ If you find PinpointQA useful, please cite:
 ```bibtex
 @article{zhou2026pinpointqa,
 author  = {Zhiyu Zhou and Peilin Liu and Ruoxuan Zhang and Luyang Zhang and Cheng Zhang and Hongxia Xie and Wen-Huang Cheng},
-title   = {PinpointQA: A Dataset and Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos},
+title   = {PinpointQA: A Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos},
 journal = {arXiv preprint arXiv:2604.08991},
-year    = {2026}
+year    = {2026},
+url     = {https://arxiv.org/abs/2604.08991v3}
 }
 ```

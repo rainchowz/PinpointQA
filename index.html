@@ -6,22 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#2563EB">
 
-    <title>PinpointQA: A Dataset and Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos</title>
+    <title>PinpointQA: A Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos</title>
     <meta name="description"
-        content="PinpointQA is a dataset and benchmark for small object-centric spatial understanding in indoor videos. It evaluates target perception, reference grounding, natural-language localization, and structured spatial representation.">
+        content="PinpointQA is a benchmark for small object-centric spatial understanding in indoor videos, with four progressive tasks from target presence verification to structured spatial prediction.">
     <meta name="keywords"
         content="PinpointQA, spatial understanding, indoor videos, multimodal models, benchmark, dataset, small object-centric spatial understanding">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="PinpointQA: Small Object-Centric Spatial Understanding Benchmark">
+    <meta property="og:title" content="PinpointQA: A Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos">
     <meta property="og:description"
-        content="A dataset and benchmark for small object-centric spatial understanding in indoor videos with four progressive tasks.">
-    <meta property="og:image" content="assets/Overview.png">
+        content="A benchmark for small object-centric spatial understanding in indoor videos with four progressive tasks.">
+    <meta property="og:image" content="assets/Overview.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="PinpointQA: Small Object-Centric Spatial Understanding Benchmark">
+    <meta name="twitter:title" content="PinpointQA: A Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos">
     <meta name="twitter:description"
-        content="A dataset and benchmark for small object-centric spatial understanding in indoor videos.">
+        content="A benchmark for small object-centric spatial understanding in indoor videos.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,7 +39,7 @@
         "@context": "https://schema.org",
         "@type": "Dataset",
         "name": "PinpointQA",
-        "description": "A dataset and benchmark for small object-centric spatial understanding in indoor videos",
+        "description": "A benchmark for small object-centric spatial understanding in indoor videos",
         "author": [
             {"@type": "Person", "name": "Zhiyu Zhou"},
             {"@type": "Person", "name": "Peilin Liu"}
@@ -53,7 +53,7 @@
     <nav class="section-nav">
         <div class="container nav-inner">
             <a href="#overview" class="nav-link">Overview</a>
-            <a href="#human-assistance-demo" class="nav-link">Human Assistance Demo</a>
+            <a href="#human-localization-demo" class="nav-link">Human Localization Demo</a>
             <a href="#task-formulation" class="nav-link">Task Formulation</a>
             <a href="#pipeline" class="nav-link">Data Construction Pipeline</a>
             <a href="#dataset-statistics" class="nav-link">Dataset Statistics</a>
@@ -65,7 +65,7 @@
     <header class="hero">
         <div class="container hero-inner">
             <h1 class="paper-title">
-                PinpointQA: A Dataset and Benchmark for Small Object-Centric
+                PinpointQA: A Benchmark for Small Object-Centric
                 Spatial Understanding in Indoor Videos
             </h1>
 
@@ -85,8 +85,12 @@
                 <span class="affiliation"><sup>2</sup> National Taiwan University</span>
             </div>
 
+            <div class="venue-wrap">
+                <span class="venue-badge">ECCV EMR 2026</span>
+            </div>
+
             <div class="action-buttons">
-                <a href="https://arxiv.org/abs/2604.08991v1" class="btn" target="_blank" rel="noopener noreferrer"><ion-icon name="document-text-outline"></ion-icon> Paper</a>
+                <a href="https://arxiv.org/abs/2604.08991v3" class="btn" target="_blank" rel="noopener noreferrer"><ion-icon name="document-text-outline"></ion-icon> Paper</a>
                 <a href="https://github.com/rainchowz/PinpointQA" class="btn" target="_blank"><ion-icon name="logo-github"></ion-icon> Code</a>
                 <a href="https://huggingface.co/datasets/RainChow/PinpointQA" class="btn" target="_blank"><ion-icon name="server-outline"></ion-icon> Dataset</a>
                 <a href="assets/appendix.pdf" class="btn" target="_blank" rel="noopener noreferrer"><ion-icon name="book-outline"></ion-icon> Appendix</a>
@@ -103,31 +107,38 @@
             </div>
 
             <div class="figure-card">
-                <img src="assets/Overview.png" alt="PinpointQA overview" class="main-figure">
+                <img src="assets/Overview.jpg" alt="PinpointQA overview" class="main-figure">
             </div>
 
             <p class="caption">
-                <strong>Figure 1.</strong> PinpointQA decomposes the benchmark into four progressively harder tasks for
-                small object-centric spatial understanding.
+                <strong>Figure 1.</strong> Overview of the proposed PinpointQA benchmark. PinpointQA evaluates small
+                object-centric spatial understanding in indoor videos through four tasks: Target Presence Verification
+                (TPV), Nearest Reference Identification (NRI), Fine-Grained Spatial Description (FSD), and Structured
+                Spatial Prediction (SSP). The top row shows an example video sequence, the surrounding panels illustrate
+                the task formats, and the center summarizes the benchmark statistics and min–max normalized performance of
+                representative MLLMs.
             </p>
 
             <div class="section-text">
                 <p>
-                    PinpointQA is a dataset and benchmark for evaluating whether multimodal models can determine whether a specified small object appears in an indoor scene, localize it through nearby references, describe its final location precisely in natural language, and express the same grounded information in a form useful to both humans and downstream systems.
+                    PinpointQA benchmarks whether models can localize small indoor objects from video and express their
+                    position with sufficient precision, organized as a progressive chain from target presence to reference
+                    grounding, fine-grained description, and structured spatial prediction.
                 </p>
             </div>
         </section>
 
-        <section class="section" id="human-assistance-demo">
+        <section class="section" id="human-localization-demo">
             <div class="section-heading section-heading-center">
-                <h2>Human Assistance Evaluation Demo</h2>
+                <h2>Human Localization with FSD Guidance Demo</h2>
                 <span class="section-divider"></span>
             </div>
 
             <div class="section-text section-text-center">
                 <p>
-                    This lightweight demo mirrors the human assistance setting: users browse several frames, click the
-                    target location, and immediately see the elapsed time and response accuracy for each example.
+                    This lightweight demo mirrors the paper’s human localization study with FSD guidance: browse the
+                    available frames, select the frame where the target appears, click its estimated location, and
+                    optionally reveal an FSD description to measure both completion time and localization accuracy.
                 </p>
             </div>
 
@@ -138,7 +149,7 @@
                 </div>
 
                 <div class="demo-hint-panel hidden" id="demoHintPanel">
-                    <div class="demo-hint-label">Hint</div>
+                    <div class="demo-hint-label">FSD Description</div>
                     <div class="demo-hint-text" id="demoHintText">-</div>
                 </div>
 
@@ -172,7 +183,7 @@
                         <div class="demo-controls">
                             <button class="button ghost" id="demoStartBtn">Start</button>
                             <button class="button success" id="demoSaveBtn" disabled>Save Answer</button>
-                            <button class="button secondary" id="demoHintBtn" disabled>Show Hint</button>
+                            <button class="button secondary" id="demoHintBtn" disabled>Show FSD</button>
                             <button class="button primary" id="demoNextBtn">Next Example</button>
                         </div>
                     </div>
@@ -284,18 +295,21 @@
             </div>
 
             <div class="figure-card">
-                <img src="assets/Datapineline.png" alt="Data construction pipeline" class="pipeline-figure">
+                <img src="assets/Datapipeline.jpg" alt="Data construction pipeline" class="pipeline-figure">
             </div>
 
             <p class="caption">
-                <strong>Figure 2.</strong> The pipeline connects scene curation, scene curation, and task-specific QA generation.
+                <strong>Figure 2.</strong> Construction pipeline of PinpointQA. Starting from the aligned 3D meshes and
+                instance-level annotations of ScanNet++ and ScanNet200, we select candidate small object targets,
+                construct intermediate spatial representations through scene curation, and instantiate them as TPV, NRI,
+                FSD, and SSP QA pairs. The pipeline combines rule-based filtering with iterative manual review for quality
+                control.
             </p>
 
             <div class="section-text">
                 <p>
-                    PinpointQA is built from ScanNet++ and ScanNet200, combining richly annotated indoor scenes with
-                    small object-centric spatial reasoning. The pipeline identifies candidate small objects, constructs intermediate spatial representations between the target and nearby references, and then generates aligned QA pairs for
-                    TPV, NRI, FSD, and SSP under a unified formulation.
+                    Annotations are derived from aligned 3D geometry and instance-level labels, then converted into
+                    task-specific QA pairs while evaluated models receive only sampled RGB video frames.
                 </p>
             </div>
         </section>
@@ -307,20 +321,19 @@
             </div>
 
             <div class="figure-card">
-                <img src="assets/data.png" alt="Dataset statistics" class="stats-figure">
+                <img src="assets/data.jpg" alt="Dataset statistics" class="stats-figure">
             </div>
 
             <p class="caption">
-                <strong>Figure 3.</strong> Distribution overview of tasks, data-source composition, target categories,
-                and video duration.
+                <strong>Figure 3.</strong> Benchmark statistics: (a) task distribution, (b) composition by data source and
+                counts for each task, (c) categories of target objects shown as a word cloud, and (d) video duration
+                distribution.
             </p>
 
             <div class="section-text">
                 <p>
-                    The benchmark maintains a relatively balanced task distribution across TPV, NRI, FSD, and SSP. It
-                    covers a wide range of daily small objects, combines samples from both ScanNet++ and ScanNet200, and
-                    spans both short-to-medium and longer indoor videos, providing a diverse testbed for
-                    small object-centric spatial understanding.
+                    PinpointQA contains 1,024 scenes and 10,094 QA pairs with balanced task coverage, mixed ScanNet++ and
+                    ScanNet200 sources, diverse small-object categories, and a wide range of indoor video durations.
                 </p>
             </div>
         </section>
@@ -579,9 +592,10 @@
                 <pre><code id="bibtex-code">
 @article{zhou2026pinpointqa,
 author  = {Zhiyu Zhou and Peilin Liu and Ruoxuan Zhang and Luyang Zhang and Cheng Zhang and Hongxia Xie and Wen-Huang Cheng},
-title   = {PinpointQA: A Dataset and Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos},
+title   = {PinpointQA: A Benchmark for Small Object-Centric Spatial Understanding in Indoor Videos},
 journal = {arXiv preprint arXiv:2604.08991},
-year    = {2026}
+year    = {2026},
+url     = {https://arxiv.org/abs/2604.08991v3}
 }</code></pre>
             </div>
         </section>
